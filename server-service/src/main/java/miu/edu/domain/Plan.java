@@ -1,4 +1,4 @@
 package miu.edu.domain;
 
-public class TestEntity {
+public class Plan {
 }
