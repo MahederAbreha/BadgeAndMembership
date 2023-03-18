@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface MemberService {
-    public void addMember(MemberDTO memberDTO);
+    public MemberDTO addMember(MemberDTO memberDTO);
     public List<MemberDTO> findAllMembers();
 }
