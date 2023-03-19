@@ -30,12 +30,12 @@ public class Transaction {
     private LocalDateTime transactionDateTime;
 
     //1-1 relationship with Membership
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="membership_id")
     private Membership membership;
 
     //1-1 relationship with Location
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="location_id")
     private Location location;
 
@@ -47,6 +47,6 @@ public class Transaction {
         this.transactionStatusType = transactionStatusType;
         this.transactionDateTime = transactionDateTime;
         this.membership = membership;
-        this.location = location;
+        this.location = location
     }
 }
