@@ -33,7 +33,7 @@ public class Membership {
     @Column(name = "end_date",nullable = false)
     private LocalDate endDate;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "membership_id")
     private List<Plan> plan = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public class Membership {
     @Column(name = "duration_type", nullable = false)
     private DurationType durationType;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -60,4 +60,5 @@ public class Membership {
         this.endDate = endDate;
         this.plan = plan;
     }
+
 }
