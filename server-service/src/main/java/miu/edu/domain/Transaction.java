@@ -5,13 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import miu.edu.domain.enums.TransactionStatusType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,4 +31,13 @@ public class Transaction {
     @Column (name = "transaction_date_time", nullable = false)
     @NotBlank(message = "Transaction_date_time is required")
     private LocalDateTime transactionDateTime;
+
+    @ManyToOne()
+    @JoinColumn(name = "membership_id")
+    private Membership memberships;
+
+    @ManyToOne()
+    @JoinColumn(name = "location_id")
+    private Location location;
+
 }
