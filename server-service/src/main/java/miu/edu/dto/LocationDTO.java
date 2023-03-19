@@ -19,6 +19,4 @@ public class LocationDTO {
     private String description;
     private String capacity;
     private LocationType locationType;
-    private List<TimeSlot> timeSlots;
-    private List<Transaction> transactions;
 }
