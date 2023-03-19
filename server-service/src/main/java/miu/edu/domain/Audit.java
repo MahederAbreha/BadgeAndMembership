@@ -16,4 +16,19 @@ public class Audit {
     private LocalDateTime updatedAt = LocalDateTime.now();
     private long createdBy;
     private long updatedBy;
+
+    public Audit(LocalDateTime createdAt, long createdBy, long updatedBy) {
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+    }
+
+    public Audit(LocalDateTime updatedAt, long updatedBy) {
+        this.updatedAt = updatedAt;
+        this.updatedBy = updatedBy;
+    }
+
+    public Audit(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
