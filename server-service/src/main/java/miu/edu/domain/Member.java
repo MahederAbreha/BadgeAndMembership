@@ -17,13 +17,17 @@ import java.util.List;
 public class Member {
     @Id
     @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
     @NotBlank(message = "First name is required")
+    @Column(name = "first_name", nullable = false)
     private String firstname;
     @NotBlank(message = "Last name is required")
+    @Column(name = "last_name", nullable = false)
     private String lastname;
     @NotBlank(message = "Email is required")
+    @Column(name = "email", nullable = false)
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
     private String  email;
     @OneToMany()
@@ -31,6 +35,10 @@ public class Member {
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "membership_id"))
     private List<Membership> membership = new ArrayList<>();
+
+    @OneToMany()
+    @JoinColumn(name = "member_id")
+    private List<Badge> badges = new ArrayList<>();
     @Embedded
     private Audit audit;
 
