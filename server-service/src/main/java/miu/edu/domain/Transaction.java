@@ -39,14 +39,5 @@ public class Transaction {
     @JoinColumn(name="location_id")
     private Location location;
 
-    @Embedded
-    private Audit audit;
-
-    public Transaction(long id, TransactionStatusType transactionStatusType, LocalDateTime transactionDateTime, Membership membership, Location location) {
-        this.id = id;
-        this.transactionStatusType = transactionStatusType;
-        this.transactionDateTime = transactionDateTime;
-        this.membership = membership;
-        this.location = location
-    }
+    
 }
