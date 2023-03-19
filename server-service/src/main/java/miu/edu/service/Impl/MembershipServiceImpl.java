@@ -25,6 +25,7 @@ public class MembershipServiceImpl implements IMembershipService {
             Optional<Membership> getMemberById = membershipRepository.findById(id);
             if (getMemberById.isPresent()) {
                 var membershipDTO = membershipAdapter.entityToDTO(getMemberById.get());
+                membershipDTO.setPlan(getMemberById.get().getPlan());
                 return Optional.of(membershipDTO);
             }
             return Optional.empty();
@@ -35,7 +36,7 @@ public class MembershipServiceImpl implements IMembershipService {
     }
 
     @Override
-    public MembershipDTO createMemberships(MembershipDTO membershipDTO) {
+    public MembershipDTO createMembership(MembershipDTO membershipDTO) {
         try {
             var membership = membershipAdapter.DtoToEntity(membershipDTO);
             membershipRepository.save(membership);
@@ -46,7 +47,7 @@ public class MembershipServiceImpl implements IMembershipService {
     }
 
     @Override
-    public MembershipDTO updateMemberships(MembershipDTO membershipDTO) {
+    public MembershipDTO updateMembership(MembershipDTO membershipDTO) {
         try {
             Membership membershipEntity = membershipAdapter.DtoToEntity(membershipDTO);
             Optional<Membership> membership = membershipRepository.findById(membershipEntity.getId());
@@ -80,7 +81,7 @@ public class MembershipServiceImpl implements IMembershipService {
     }
 
     @Override
-    public List<MembershipDTO> getAllMemberships() {
+    public List<MembershipDTO> getAllMembership() {
         try {
             return membershipAdapter.entityToDTOAll(membershipRepository.findAll());
         } catch (Exception e) {
