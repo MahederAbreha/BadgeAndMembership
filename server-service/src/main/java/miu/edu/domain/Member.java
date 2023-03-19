@@ -36,7 +36,8 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "membership_id"))
     private List<Membership> membership = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany
+//            (mappedBy = "member")
     private List<Badge> badges = new ArrayList<>();
     @Embedded
     private Audit audit;

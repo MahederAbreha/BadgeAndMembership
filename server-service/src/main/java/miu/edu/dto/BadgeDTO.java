@@ -3,6 +3,7 @@ package miu.edu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import miu.edu.domain.Member;
 
 
 @Data
@@ -11,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class BadgeDTO {
 
     private long id;
-    private Boolean active;
+    private Boolean isActive;
 }

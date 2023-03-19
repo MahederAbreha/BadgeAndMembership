@@ -1,6 +1,7 @@
 package miu.edu.adapter;
 
 import miu.edu.domain.Badge;
+import miu.edu.domain.Member;
 import miu.edu.dto.BadgeDTO;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class BadgeAdapter {
         return new BadgeDTO(badge.getId(), badge.getIsActive());
     }
     public Badge DtoToEntity(BadgeDTO badgeDTO){
-        return null;
+        return new Badge(badgeDTO.getId(), badgeDTO.getIsActive());
     }
     public List<BadgeDTO> entityToDTOAll(List<Badge> badges){
         return badges.stream().map(badge -> entityToDTO(badge)).collect(Collectors.toList());
