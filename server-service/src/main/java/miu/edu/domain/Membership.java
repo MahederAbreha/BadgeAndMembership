@@ -35,7 +35,6 @@ public class Membership {
 
     @OneToMany()
     @JoinColumn(name = "membership_id")
-    @NotBlank(message = "Plan is required")
     private List<Plan> plan = new ArrayList<>();
 
     @Column(name = "membership_type", nullable = false)
