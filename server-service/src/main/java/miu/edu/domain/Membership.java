@@ -49,6 +49,11 @@ public class Membership {
 
     @Column(name = "duration_type", nullable = false)
     private DurationType durationType;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     public Membership(long id, LocalDate startDate, LocalDate endDate, List<Plan> plan) {
         this.id = id;
         this.startDate = startDate;
