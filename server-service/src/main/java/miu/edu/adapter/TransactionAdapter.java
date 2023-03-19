@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Component
 public class TransactionAdapter {
     public TransactionDTO entityToDTO(Transaction transaction){
-        return new TransactionDTO(transaction.getId(), transaction.getTransactionStatusType(), transaction.getTransactionDateTime(), transaction.getMembership(), transaction.getLocation());
+        return new TransactionDTO(transaction.getId(), transaction.getTransactionStatusType(), transaction.getTransactionDateTime(), transaction.getMemberships(), transaction.getLocation());
     }
 
     public List<TransactionDTO> entityToDtoAll(List<Transaction> transactions){

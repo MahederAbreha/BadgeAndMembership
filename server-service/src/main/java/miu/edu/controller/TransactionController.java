@@ -20,15 +20,14 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> addTransaction(TransactionDTO transactionDTO){
-        transactionService.addTransaction(transactionDTO);
-        return new ResponseEntity<String>("Transaction saved.", HttpStatus.OK);
+        return new ResponseEntity<TransactionDTO>(transactionService.addTransaction(transactionDTO), HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity<?> getAllTransactions(){
         return new ResponseEntity<List<TransactionDTO>>(transactionService.findAllTransaction(), HttpStatus.OK);
     }
 
-    @GetMapping("/{member_id}")
+    @GetMapping("/{transaction_id}")
     public ResponseEntity<?> getTransaction(@PathVariable Long transaction_id){
         return new ResponseEntity<TransactionDTO>(transactionService.findById(transaction_id), HttpStatus.OK);
     }
