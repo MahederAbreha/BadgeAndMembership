@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 
@@ -14,7 +15,9 @@ import java.time.LocalDateTime;
 public class Audit {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt = LocalDateTime.now();
+    @Column(name = "created_by", nullable = true)
     private long createdBy;
+    @Column(name = "updated_by", nullable = true)
     private long updatedBy;
 
     public Audit(LocalDateTime createdAt, long createdBy, long updatedBy) {

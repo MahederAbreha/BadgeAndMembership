@@ -24,4 +24,10 @@ public class MembershipDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Plan> plan = new ArrayList<>();
+
+    public MembershipDTO(LocalDate startDate, LocalDate endDate, List<Plan> plan) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.plan = plan;
+    }
 }
