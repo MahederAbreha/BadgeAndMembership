@@ -34,10 +34,16 @@ public class Transaction {
 
     @ManyToOne()
     @JoinColumn(name = "membership_id")
-    private Membership memberships;
+    private Membership membership;
 
     @ManyToOne()
     @JoinColumn(name = "location_id")
     private Location location;
 
+    public Transaction(long id, TransactionStatusType transactionStatusType, LocalDateTime transactionDateTime, Location location) {
+        this.id = id;
+        this.transactionStatusType = transactionStatusType;
+        this.transactionDateTime = transactionDateTime;
+        this.location = location;
+    }
 }

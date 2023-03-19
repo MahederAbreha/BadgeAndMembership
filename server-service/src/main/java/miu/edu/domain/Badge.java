@@ -19,9 +19,12 @@ public class Badge {
     @Column(name ="badge_status_active", nullable = false)
     private Boolean isActive;
 
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-
+    public Badge(long id, Boolean isActive) {
+        this.id = id;
+        this.isActive = isActive;
+    }
 }
