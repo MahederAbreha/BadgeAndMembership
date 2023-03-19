@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 @Component
 public class PlanAdapter {
     public Plan dtoToEntity(PlanDTO planDTO) {
-        return  new Plan(planDTO.getId(), planDTO.getName(), planDTO.getDescription(), planDTO.getMembershipType());
+        return  new Plan(planDTO.getId(), planDTO.getName(), planDTO.getDescription());
     }
     public PlanDTO entityToDto(Plan plan) {
-        return new PlanDTO(plan.getId(), plan.getName(), plan.getDescription(), plan.getMembershipType());
+        return new PlanDTO(plan.getId(), plan.getName(), plan.getDescription());
     }
     public List<Plan> dtoToEntityAll(List<PlanDTO> planDTOList) {
         return planDTOList.stream().map(planDto -> dtoToEntity(planDto)).collect(Collectors.toList());

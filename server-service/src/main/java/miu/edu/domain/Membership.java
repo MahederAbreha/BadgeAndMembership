@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import miu.edu.adapter.PlanAdapter;
+import miu.edu.domain.enums.DurationType;
+import miu.edu.domain.enums.MembershipType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
@@ -33,8 +35,29 @@ public class Membership {
 
     @OneToMany()
     @JoinColumn(name = "membership_id")
-    @NotBlank(message = "Plan is required")
     private List<Plan> plan = new ArrayList<>();
 
+    @Column(name = "membership_type", nullable = false)
+    private MembershipType membershipType;
 
+    @Column(name = "access_limit", nullable = true)
+    private Integer limit;
+
+    @Column(name = "allow_multiple", nullable = false)
+    @NotBlank(message = "Allow multiple is required")
+    private Boolean allowMultiple;
+
+    @Column(name = "duration_type", nullable = false)
+    private DurationType durationType;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    public Membership(long id, LocalDate startDate, LocalDate endDate, List<Plan> plan) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.plan = plan;
+    }
 }
