@@ -38,9 +38,7 @@ public class Location {
     @JoinColumn(name = "location_id")
     private List<TimeSlot> timeSlots = new ArrayList<>();
 
-    @OneToMany()
-    @JoinColumn(name = "location_id")
-    private List<Transaction> transactions = new ArrayList<>();
+
 
     @Embedded
     private Audit audit;
