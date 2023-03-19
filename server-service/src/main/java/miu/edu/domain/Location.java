@@ -41,4 +41,17 @@ public class Location {
     @OneToMany()
     @JoinColumn(name = "location_id")
     private List<Transaction> transactions = new ArrayList<>();
+
+    @Embedded
+    private Audit audit;
+
+    public Location(long id, String name, String description, String capacity, LocationType locationType, List<TimeSlot> timeSlots, List<Transaction> transactions) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.capacity = capacity;
+        this.locationType = locationType;
+        this.timeSlots = timeSlots;
+        this.transactions = transactions;
+    }
 }

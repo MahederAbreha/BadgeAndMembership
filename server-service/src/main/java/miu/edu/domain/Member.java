@@ -3,6 +3,7 @@ package miu.edu.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import miu.edu.domain.enums.RoleType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,7 +20,6 @@ public class Member {
     @GeneratedValue
     @Column(name = "member_id")
     private Long id;
-
     @NotBlank(message = "First name is required")
     @Column(name = "first_name", nullable = false)
     private String firstname;
@@ -41,6 +41,7 @@ public class Member {
     private List<Badge> badges = new ArrayList<>();
     @Embedded
     private Audit audit;
+    private static List<RoleType> roleTypes = new ArrayList<>();
 
     public Member(Long id, String firstname, String lastname, String email) {
         this.id = id;
