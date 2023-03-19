@@ -14,4 +14,6 @@ import java.time.LocalDateTime;
 public class Audit {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt = LocalDateTime.now();
+    private long createdBy;
+    private long updatedBy;
 }
