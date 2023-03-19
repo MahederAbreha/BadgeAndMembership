@@ -31,10 +31,10 @@ public class MemberServiceImpl implements MemberService {
         member.setAudit(new Audit(LocalDateTime.now()));
         try {
             memberRepository.save(member);
+            return memberAdapter.entityToDTO(member);
         }catch (RuntimeException e){
             throw new RuntimeException("Failed to add this member");
         }
-        return memberAdapter.entityToDTO(member);
     }
 
     @Override
@@ -54,21 +54,22 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO updateById(MemberDTO memberDTO) {
+    public MemberDTO updateMember(MemberDTO memberDTO) {
         try {
             memberRepository.save(memberAdapter.DtoToEntity(memberDTO));
         }catch (EntityNotFoundException e){
-            throw new EntityNotFoundException("Member not found");
+            throw new EntityNotFoundException("Failed to update the member");
         }
         return memberDTO;
     }
 
     @Override
-    public void deleteById(Long id) {
+    public String deleteById(Long id) {
         try {
             memberRepository.deleteById(id);
+            return "Member deleted successfully";
         }catch (EntityNotFoundException e){
-            throw new EntityNotFoundException("Member not found");
+            throw new EntityNotFoundException("Failed to delete this member");
         }
     }
 }
