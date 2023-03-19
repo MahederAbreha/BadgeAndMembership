@@ -24,5 +24,4 @@ public class MembershipDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Plan> plan = new ArrayList<>();
-    private List<Transaction> transactions = new ArrayList<>();
 }
