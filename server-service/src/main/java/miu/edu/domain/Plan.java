@@ -3,6 +3,7 @@ package miu.edu.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import miu.edu.domain.enums.MembershipType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -31,4 +32,12 @@ public class Plan {
     @OneToMany
     @JoinColumn(name = "plan_id")
     private List<Location> locations = new ArrayList<>();
+    private MembershipType membershipType;
+
+    public Plan(long id, String name, String description, MembershipType membershipType) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.membershipType = membershipType;
+    }
 }

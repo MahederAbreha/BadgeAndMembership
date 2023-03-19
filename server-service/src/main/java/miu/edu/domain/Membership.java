@@ -41,7 +41,7 @@ public class Membership {
     @Column(name = "membership_type", nullable = false)
     private MembershipType membershipType;
 
-    @Column(name = "limit", nullable = true)
+    @Column(name = "access_limit", nullable = true)
     private Integer limit;
 
     @Column(name = "allow_multiple", nullable = false)
