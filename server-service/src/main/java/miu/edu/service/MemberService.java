@@ -9,4 +9,8 @@ import java.util.List;
 public interface MemberService {
     public MemberDTO addMember(MemberDTO memberDTO);
     public List<MemberDTO> findAllMembers();
+    public MemberDTO findById(Long id);
+    public MemberDTO updateById(MemberDTO memberDTO);
+    public void deleteById(Long id);
+
 }
