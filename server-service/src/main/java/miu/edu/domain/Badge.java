@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -20,7 +17,11 @@ public class Badge {
     private long id;
 
     @Column(name ="badge_status_active", nullable = false)
-     private Boolean active;
+    private Boolean isActive;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 
 }
