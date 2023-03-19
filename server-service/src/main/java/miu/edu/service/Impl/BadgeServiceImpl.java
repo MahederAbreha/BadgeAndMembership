@@ -53,7 +53,7 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public BadgeDTO updateBadge(long id, BadgeDTO badgeDTO) {
-        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
+        Badge badge = badgeRepository.findById(badgeDTO.getId()).orElseThrow(() -> new RuntimeException("Badge not found"));
         Badge updatedBadge = badgeAdapter.DtoToEntity(badgeDTO);
         updatedBadge.setIsActive(badge.getIsActive());
         badgeRepository.save(updatedBadge);
