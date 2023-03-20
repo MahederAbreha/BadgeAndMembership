@@ -10,7 +10,6 @@ import miu.edu.domain.enums.MembershipType;
 import miu.edu.dto.MembershipDTO;
 import miu.edu.repository.MembershipRepository;
 import miu.edu.service.IMembershipService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MembershipServiceImpl implements IMembershipService {
 
-    @Autowired
+
     private final MembershipRepository membershipRepository;
-    @Autowired
+
     private final MembershipAdapter membershipAdapter;
-    @Autowired
+
     private final PlanAdapter planAdapter;
-    @Autowired
+
     private final MemberAdapter memberAdapter;
 
     @Override
@@ -51,6 +50,7 @@ public class MembershipServiceImpl implements IMembershipService {
     @Override
     public MembershipDTO createMembership(MembershipDTO membershipDTO) {
 
+        try {
             var membership = membershipAdapter.DtoToEntity(membershipDTO);
             var plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
             var member = memberAdapter.DtoToEntity(membershipDTO.getMemberDTO());
@@ -65,6 +65,9 @@ public class MembershipServiceImpl implements IMembershipService {
             membershipDto.setPlanDTO(planDtoList);
             membershipDto.setMemberDTO(memberDtoList);
             return membershipDto;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create the membership");
+        }
 
 
     }
