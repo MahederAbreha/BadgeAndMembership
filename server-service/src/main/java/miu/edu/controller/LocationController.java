@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/locations")
 @RequiredArgsConstructor
 public class LocationController {
-    @Autowired
+
     private final LocationService locationService;
     @PostMapping
     public ResponseEntity<?> addLocation(LocationDTO locationDTO){
