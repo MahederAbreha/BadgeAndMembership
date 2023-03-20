@@ -38,6 +38,10 @@ public class Plan {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
 
+    public Plan(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 }

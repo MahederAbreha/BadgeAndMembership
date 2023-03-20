@@ -8,8 +8,8 @@ import java.util.Optional;
 public interface IMembershipService {
     Optional<MembershipDTO> getMembershipsById(Long id);
 
-    MembershipDTO createMemberships(MembershipDTO membershipDTO);
-    MembershipDTO updateMemberships(MembershipDTO membershipDTO);
+    MembershipDTO createMembership(MembershipDTO membershipDTO);
+    MembershipDTO updateMembership(MembershipDTO membershipDTO);
     boolean deleteMembership(Long id);
-    List<MembershipDTO> getAllMemberships();
+    List<MembershipDTO> getAllMembership();
 }

@@ -17,7 +17,7 @@ public class MemberController {
     @Autowired
     private final MemberService memberService;
     @PostMapping
-    public ResponseEntity<?> addMember(MemberDTO memberDTO){
+    public ResponseEntity<?> addMember(@RequestBody MemberDTO memberDTO){
         return new ResponseEntity<MemberDTO>(memberService.addMember(memberDTO), HttpStatus.OK);
     }
     @GetMapping
@@ -35,5 +35,10 @@ public class MemberController {
     @DeleteMapping("/{member_id}")
     public ResponseEntity<?> deleteMember(@PathVariable Long id){
         return new ResponseEntity<String>(memberService.deleteById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{member_id}/plans")
+    public ResponseEntity<?> getPlansByMemberId(@PathVariable Long member_id){
+        return new ResponseEntity<>(memberService.findPlansByMemberId(member_id), HttpStatus.OK);
     }
 }

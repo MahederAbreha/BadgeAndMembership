@@ -1,11 +1,10 @@
 package miu.edu.service.Impl;
 
 import lombok.RequiredArgsConstructor;
-import miu.edu.adapter.BadgeAdapter;
 import miu.edu.adapter.MemberAdapter;
 import miu.edu.domain.Audit;
 import miu.edu.domain.Member;
-import miu.edu.dto.BadgeDTO;
+import miu.edu.domain.Plan;
 import miu.edu.dto.MemberDTO;
 import miu.edu.repository.MemberRepository;
 import miu.edu.service.MemberService;
@@ -24,9 +23,6 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
     @Autowired
     private final MemberAdapter memberAdapter;
-
-    @Autowired
-    private final BadgeAdapter badgeAdapter;
     @Autowired
     private final MemberRepository memberRepository;
 
@@ -79,11 +75,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<BadgeDTO> findAllBadgesByMemberId(Long id) {
+    public List<Plan> findPlansByMemberId(Long id) {
         try {
-            return badgeAdapter.entityToDTOAll(memberRepository.findById(id).get().getBadges());
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to retrieve badges");
+            return memberRepository.findPlansByMemberId(id);
+        }catch (RuntimeException e){
+            throw new RuntimeException("Failed to find the plans");
         }
     }
 }

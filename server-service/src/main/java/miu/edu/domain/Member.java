@@ -41,6 +41,9 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roleTypes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Membership> memberships = new ArrayList<>();
+
     public Member(Long id, String firstname, String lastname, String email) {
         this.id = id;
         this.firstname = firstname;
@@ -48,4 +51,17 @@ public class Member {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+               ", badges=" + badges +
+                ", audit=" + audit +
+                ", roleTypes=" + roleTypes +
+            //    ", memberships=" + memberships +
+                '}';
+    }
 }
