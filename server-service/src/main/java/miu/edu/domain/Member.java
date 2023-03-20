@@ -30,8 +30,6 @@ public class Member {
     @Column(name = "email", nullable = false)
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
     private String email;
-    @OneToMany(mappedBy = "member")
-    private List<Membership> membership = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Badge> badges = new ArrayList<>();
@@ -53,4 +51,17 @@ public class Member {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+               ", badges=" + badges +
+                ", audit=" + audit +
+                ", roleTypes=" + roleTypes +
+            //    ", memberships=" + memberships +
+                '}';
+    }
 }
