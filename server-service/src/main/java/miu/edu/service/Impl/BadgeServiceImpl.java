@@ -3,7 +3,6 @@ package miu.edu.service.Impl;
 import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.BadgeAdapter;
 import miu.edu.domain.Badge;
-import miu.edu.domain.Member;
 import miu.edu.dto.BadgeDTO;
 import miu.edu.repository.BadgeRepository;
 import miu.edu.service.BadgeService;
@@ -27,7 +26,7 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public BadgeDTO addBadge(BadgeDTO badgeDTO) {
-        Badge badge = badgeAdapter.DtoToEntity(badgeDTO);
+        Badge badge = badgeAdapter.dtoToEntity(badgeDTO);
         badgeRepository.save(badge);
         return badgeAdapter.entityToDTO(badge);
     }
@@ -54,7 +53,7 @@ public class BadgeServiceImpl implements BadgeService {
     @Override
     public BadgeDTO updateBadge(long id, BadgeDTO badgeDTO) {
         Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
-        Badge updatedBadge = badgeAdapter.DtoToEntity(badgeDTO);
+        Badge updatedBadge = badgeAdapter.dtoToEntity(badgeDTO);
         updatedBadge.setIsActive(badge.getIsActive());
         badgeRepository.save(updatedBadge);
         return badgeAdapter.entityToDTO(updatedBadge);

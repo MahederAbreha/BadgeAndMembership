@@ -8,6 +8,7 @@ import miu.edu.domain.enums.DurationType;
 import miu.edu.domain.enums.MembershipType;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -33,8 +34,10 @@ public class Membership {
     @Column(name = "end_date",nullable = false)
     private LocalDate endDate;
 
-    @OneToMany()
-    @JoinColumn(name = "membership_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @JoinTable(name = "membership_plans",
+            joinColumns = @JoinColumn(name = "membership_id"),
+            inverseJoinColumns = @JoinColumn(name = "plan_id"))
     private List<Plan> plan = new ArrayList<>();
 
     @Column(name = "membership_type", nullable = false)
@@ -44,20 +47,37 @@ public class Membership {
     private Integer limit;
 
     @Column(name = "allow_multiple", nullable = false)
-    @NotBlank(message = "Allow multiple is required")
     private Boolean allowMultiple;
 
     @Column(name = "duration_type", nullable = false)
     private DurationType durationType;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Membership(long id, LocalDate startDate, LocalDate endDate, List<Plan> plan) {
+    public Membership(long id, LocalDate startDate, LocalDate endDate, Integer limit, Boolean allowMultiple, MembershipType membershipType, DurationType durationType) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.plan = plan;
+        this.limit = limit;
+        this.allowMultiple = allowMultiple;
+        this.membershipType = membershipType;
+        this.durationType= durationType;
+    }
+
+    @Override
+    public String toString() {
+        return "Membership{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", plan=" + plan +
+                ", membershipType=" + membershipType +
+                ", limit=" + limit +
+                ", allowMultiple=" + allowMultiple +
+                ", durationType=" + durationType +
+                ", member=" + member +
+                '}';
     }
 }

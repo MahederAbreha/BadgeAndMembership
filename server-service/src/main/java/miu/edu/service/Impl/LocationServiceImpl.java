@@ -26,7 +26,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationDTO addLocation(LocationDTO locationDTO) {
         try {
-            locationRepository.save(locationAdapter.DtoToEntity(locationDTO));
+            locationRepository.save(locationAdapter.dtoToEntity(locationDTO));
             return locationDTO;
         }catch (RuntimeException e){
             throw new RuntimeException("Failed to add this location");
@@ -45,7 +45,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public LocationDTO updateLocation(LocationDTO locationDTO) {
         try {
-            locationRepository.save(locationAdapter.DtoToEntity(locationDTO));
+            locationRepository.save(locationAdapter.dtoToEntity(locationDTO));
             return locationDTO;
         }catch (RuntimeException e){
             throw new RuntimeException("Failed to update this location");
