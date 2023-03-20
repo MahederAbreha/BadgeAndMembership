@@ -1,7 +1,8 @@
 package miu.edu.repository;
 
+import miu.edu.domain.Badge;
 import miu.edu.domain.Member;
-import miu.edu.domain.Transaction;
+import miu.edu.domain.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,8 +12,12 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    //return the list of all transactions (GET /members/{memberId}/transactions)
-//    @Query("SELECT m FROM MEMBER m JOIN m.membership ms JOIN ms.TRANSACTION t WHERE t.member_id =: member_id");
-//    List<Transaction> getTransactionByMemberId(@Param("member_id") long member_id);
+    @Query("SELECT p FROM Membership ms JOIN ms.plan p WHERE ms.member.id = :id")
+    List<Plan> findPlansByMemberId(@Param("id") Long id);
 
+    @Query("SELECT b FROM Badge b WHERE b.member.id = :id")
+     List<Badge> findBadgeByMemberId(@Param("id") Long id);
+
+    @Query("SELECT m FROM Member m JOIN m.memberships b WHERE m.id = :id")
+    Member findMembershipsByMemberId(@Param("id") Long id);
 }

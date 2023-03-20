@@ -32,7 +32,7 @@ public class MembershipController {
 
     @GetMapping()
     public ResponseEntity<?> getAllMemberships() {
-        var getList = iMembershipService.getAllMemberships();
+        var getList = iMembershipService.getAllMembership();
         if (getList != null) {
             return new ResponseEntity<>(getList, HttpStatus.OK);
         } else {
@@ -46,7 +46,7 @@ public class MembershipController {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         } else {
-            return ResponseEntity.ok(iMembershipService.createMemberships(membershipDTO));
+            return ResponseEntity.ok(iMembershipService.createMembership(membershipDTO));
         }
     }
 
@@ -55,9 +55,9 @@ public class MembershipController {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         } else {
-            var updateMemberships = iMembershipService.updateMemberships(membershipDTO);
+            var updateMemberships = iMembershipService.updateMembership(membershipDTO);
             if (updateMemberships != null) {
-                return ResponseEntity.ok(iMembershipService.updateMemberships(membershipDTO));
+                return ResponseEntity.ok(iMembershipService.updateMembership(membershipDTO));
             } else {
                 return ResponseEntity.notFound().build();
             }
