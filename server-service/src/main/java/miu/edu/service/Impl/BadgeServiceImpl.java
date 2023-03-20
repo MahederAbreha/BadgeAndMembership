@@ -3,7 +3,6 @@ package miu.edu.service.Impl;
 import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.BadgeAdapter;
 import miu.edu.domain.Badge;
-import miu.edu.domain.Member;
 import miu.edu.dto.BadgeDTO;
 import miu.edu.repository.BadgeRepository;
 import miu.edu.service.BadgeService;
@@ -27,7 +26,7 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public BadgeDTO addBadge(BadgeDTO badgeDTO) {
-        Badge badge = badgeAdapter.DtoToEntity(badgeDTO);
+        Badge badge = badgeAdapter.dtoToEntity(badgeDTO);
         badgeRepository.save(badge);
         return badgeAdapter.entityToDTO(badge);
     }
@@ -43,41 +42,27 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public BadgeDTO findBadgeById(long id) {
-        try{
-            Optional<Badge> badge = badgeRepository.findById(id);
-            if (!badge.isPresent()) {
-                throw new RuntimeException("Badge not found");
-            } else {
-                return badgeAdapter.entityToDTO(badge.get());
-            }
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to retrieve badge");
+        Optional<Badge> badge = badgeRepository.findById(id);
+        if (!badge.isPresent()) {
+            throw new RuntimeException("Badge not found");
+        } else {
+            return badgeAdapter.entityToDTO(badge.get());
         }
     }
 
     @Override
     public BadgeDTO updateBadge(long id, BadgeDTO badgeDTO) {
-        try {
-            Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
-            Badge updatedBadge = badgeAdapter.DtoToEntity(badgeDTO);
-            updatedBadge.setIsActive(badge.getIsActive());
-            badgeRepository.save(updatedBadge);
-            return badgeAdapter.entityToDTO(updatedBadge);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to update badge");
-        }
-
+        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
+        Badge updatedBadge = badgeAdapter.dtoToEntity(badgeDTO);
+        updatedBadge.setIsActive(badge.getIsActive());
+        badgeRepository.save(updatedBadge);
+        return badgeAdapter.entityToDTO(updatedBadge);
     }
 
     @Override
     public void MakeBadgeInactive(long id) {
-        try {
-            Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
-            badge.setIsActive(false);
-            badgeRepository.save(badge);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to update badge");
-        }
+        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
+        badge.setIsActive(false);
+        badgeRepository.save(badge);
     }
-
 }

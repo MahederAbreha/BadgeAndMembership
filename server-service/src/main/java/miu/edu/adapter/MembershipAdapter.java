@@ -15,10 +15,10 @@ public class MembershipAdapter {
     public List<MembershipDTO> entityToDTOAll(List<Membership> membership){
         return membership.stream().map(memberships -> entityToDTO(memberships)).collect(Collectors.toList());
     }
-    public Membership DtoToEntity(MembershipDTO membershipDTO){
+    public Membership dtoToEntity(MembershipDTO membershipDTO){
         return new Membership(membershipDTO.getId(), membershipDTO.getStartDate(), membershipDTO.getEndDate(),membershipDTO.getLimit(),membershipDTO.getAllowMultiple(),membershipDTO.getMembershipType(),membershipDTO.getDurationType());
     }
-    public List<Membership> DtoToEntityAll(List<MembershipDTO> membershipDTO){
-        return membershipDTO.stream().map(memberDTO -> DtoToEntity(memberDTO)).collect(Collectors.toList());
+    public List<Membership> dtoToEntityAll(List<MembershipDTO> membershipDTO){
+        return membershipDTO.stream().map(memberDTO -> dtoToEntity(memberDTO)).collect(Collectors.toList());
     }
 }

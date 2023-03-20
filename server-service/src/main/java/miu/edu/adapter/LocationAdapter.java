@@ -14,10 +14,10 @@ public class LocationAdapter {
     public List<LocationDTO> entityToDtoAll(List<Location> locations){
         return locations.stream().map(location -> entityToDto(location)).collect(Collectors.toList());
     }
-    public Location DtoToEntity(LocationDTO locationDTO){
+    public Location dtoToEntity(LocationDTO locationDTO){
         return new Location(locationDTO.getId(), locationDTO.getName(), locationDTO.getDescription(), locationDTO.getCapacity(), locationDTO.getLocationType());
     }
-    public List<Location> DtoToEntityAll(List<LocationDTO> locationDTOS){
-        return locationDTOS.stream().map(locationDTO -> DtoToEntity(locationDTO)).collect(Collectors.toList());
+    public List<Location> dtoToEntityAll(List<LocationDTO> locationDTOS){
+        return locationDTOS.stream().map(locationDTO -> dtoToEntity(locationDTO)).collect(Collectors.toList());
     }
 }

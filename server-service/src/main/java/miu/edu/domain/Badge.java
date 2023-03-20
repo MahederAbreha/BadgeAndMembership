@@ -19,7 +19,7 @@ public class Badge {
     @Column(name ="badge_status_active", nullable = false)
     private Boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 

@@ -3,6 +3,17 @@ package miu.edu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import miu.edu.domain.Audit;
+import miu.edu.domain.Badge;
+import miu.edu.domain.Membership;
+import miu.edu.domain.Role;
+
+import javax.persistence.Embedded;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,8 +23,11 @@ public class MemberDTO {
     private String firstname;
     private String lastname;
     private String  email;
-
-    public MemberDTO(String firstname, String lastname, String email) {
+    private List<BadgeDTO> badgeDTOS = new ArrayList<>();
+    private List<RoleDTO> roleTypes = new ArrayList<>();
+    private List<MembershipDTO> membershipDTOS = new ArrayList<>();
+    public MemberDTO(Long id ,String firstname, String lastname, String email) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;

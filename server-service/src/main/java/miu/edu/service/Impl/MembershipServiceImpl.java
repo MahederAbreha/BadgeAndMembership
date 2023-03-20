@@ -49,7 +49,7 @@ public class MembershipServiceImpl implements IMembershipService {
     public MembershipDTO createMembership(MembershipDTO membershipDTO) {
 
         try {
-            var membership = membershipAdapter.DtoToEntity(membershipDTO);
+            var membership = membershipAdapter.dtoToEntity(membershipDTO);
             var plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
             var member = memberAdapter.DtoToEntity(membershipDTO.getMemberDTO());
             membership.setPlan(plan);
@@ -72,7 +72,7 @@ public class MembershipServiceImpl implements IMembershipService {
     @Override
     public MembershipDTO updateMembership(MembershipDTO membershipDTO) {
         try {
-            Membership membershipEntity = membershipAdapter.DtoToEntity(membershipDTO);
+            Membership membershipEntity = membershipAdapter.dtoToEntity(membershipDTO);
             Optional<Membership> membership = membershipRepository.findById(membershipEntity.getId());
             if (membership.isPresent()) {
                 var update = createMembership(membershipDTO);
