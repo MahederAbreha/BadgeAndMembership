@@ -54,12 +54,28 @@ public class Membership {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Membership(long id, LocalDate startDate, LocalDate endDate, Integer limit, Boolean allowMultiple) {
+    public Membership(long id, LocalDate startDate, LocalDate endDate, Integer limit, Boolean allowMultiple, MembershipType membershipType, DurationType durationType) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.limit = limit;
         this.allowMultiple = allowMultiple;
+        this.membershipType = membershipType;
+        this.durationType= durationType;
     }
 
+    @Override
+    public String toString() {
+        return "Membership{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", plan=" + plan +
+                ", membershipType=" + membershipType +
+                ", limit=" + limit +
+                ", allowMultiple=" + allowMultiple +
+                ", durationType=" + durationType +
+                ", member=" + member +
+                '}';
+    }
 }

@@ -5,8 +5,6 @@ import miu.edu.adapter.MemberAdapter;
 import miu.edu.adapter.MembershipAdapter;
 import miu.edu.adapter.PlanAdapter;
 import miu.edu.domain.Membership;
-import miu.edu.domain.enums.DurationType;
-import miu.edu.domain.enums.MembershipType;
 import miu.edu.dto.MembershipDTO;
 import miu.edu.repository.MembershipRepository;
 import miu.edu.service.IMembershipService;
@@ -54,8 +52,6 @@ public class MembershipServiceImpl implements IMembershipService {
             var membership = membershipAdapter.DtoToEntity(membershipDTO);
             var plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
             var member = memberAdapter.DtoToEntity(membershipDTO.getMemberDTO());
-            membership.setMembershipType(MembershipType.LIMITED);
-            membership.setDurationType(DurationType.DAILY);
             membership.setPlan(plan);
             membership.setMember(member);
             membershipRepository.save(membership);
@@ -72,18 +68,16 @@ public class MembershipServiceImpl implements IMembershipService {
 
     }
 
+
     @Override
     public MembershipDTO updateMembership(MembershipDTO membershipDTO) {
         try {
             Membership membershipEntity = membershipAdapter.DtoToEntity(membershipDTO);
             Optional<Membership> membership = membershipRepository.findById(membershipEntity.getId());
             if (membership.isPresent()) {
-                var plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
-                var member = memberAdapter.DtoToEntity(membershipDTO.getMemberDTO());
-                membershipEntity.setMember(member);
-                membershipEntity.setPlan(plan);
-                membershipRepository.save(membershipEntity);
-                return membershipAdapter.entityToDTO(membershipEntity);
+                var update = createMembership(membershipDTO);
+                return update;
+
             } else {
                 throw new RuntimeException("Membership id not found");
             }
@@ -113,7 +107,19 @@ public class MembershipServiceImpl implements IMembershipService {
     @Override
     public List<MembershipDTO> getAllMembership() {
         try {
-            return membershipAdapter.entityToDTOAll(membershipRepository.findAll());
+            List<Membership> list = membershipRepository.findAll();
+            var membershipList = membershipAdapter.entityToDTOAll(list);
+            for (Membership membership : list) {
+                var planList = planAdapter.entityToDtoAll(membership.getPlan());
+                var memberList = memberAdapter.entityToDTO(membership.getMember());
+                for (MembershipDTO membershipDTO : membershipList) {
+                    if (membershipDTO.getId() == membership.getId()) {
+                        membershipDTO.setPlanDTO(planList);
+                        membershipDTO.setMemberDTO(memberList);
+                    }
+                }
+            }
+            return membershipList;
         } catch (Exception e) {
             throw new RuntimeException("Failed to get all the membership");
         }

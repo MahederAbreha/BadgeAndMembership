@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 @Component
 public class MembershipAdapter {
     public MembershipDTO entityToDTO(Membership membership){
-        return new MembershipDTO(membership.getId(), membership.getStartDate(), membership.getEndDate(),membership.getLimit(),membership.getAllowMultiple());
+        return new MembershipDTO(membership.getId(), membership.getStartDate(), membership.getEndDate(),membership.getLimit(),membership.getAllowMultiple(),membership.getMembershipType(),membership.getDurationType());
     }
     public List<MembershipDTO> entityToDTOAll(List<Membership> membership){
         return membership.stream().map(memberships -> entityToDTO(memberships)).collect(Collectors.toList());
     }
     public Membership DtoToEntity(MembershipDTO membershipDTO){
-        return new Membership(membershipDTO.getId(), membershipDTO.getStartDate(), membershipDTO.getEndDate(),membershipDTO.getLimit(),membershipDTO.getAllowMultiple());
+        return new Membership(membershipDTO.getId(), membershipDTO.getStartDate(), membershipDTO.getEndDate(),membershipDTO.getLimit(),membershipDTO.getAllowMultiple(),membershipDTO.getMembershipType(),membershipDTO.getDurationType());
     }
     public List<Membership> DtoToEntityAll(List<MembershipDTO> membershipDTO){
         return membershipDTO.stream().map(memberDTO -> DtoToEntity(memberDTO)).collect(Collectors.toList());
