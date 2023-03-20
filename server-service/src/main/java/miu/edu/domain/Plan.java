@@ -29,7 +29,7 @@ public class Plan {
     @NotBlank(message = "Plan description is required")
     private String description;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "plan_id")
     private List<Location> locations = new ArrayList<>();
 
@@ -38,10 +38,6 @@ public class Plan {
         this.id = id;
         this.name = name;
         this.description = description;
-    }
 
-    public Plan(String name, String description) {
-        this.name = name;
-        this.description = description;
     }
 }

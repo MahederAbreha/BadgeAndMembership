@@ -32,7 +32,7 @@ public class PlanController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody PlanDTO planDTO) {
-        return new ResponseEntity<PlanDTO>(planService.updatePlan(planDTO, id), HttpStatus.OK);
+        return new ResponseEntity<PlanDTO>(planService.updatePlan(id, planDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
