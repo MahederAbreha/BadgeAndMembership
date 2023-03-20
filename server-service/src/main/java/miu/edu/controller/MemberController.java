@@ -17,7 +17,7 @@ public class MemberController {
     @Autowired
     private final MemberService memberService;
     @PostMapping
-    public ResponseEntity<?> addMember(MemberDTO memberDTO){
+    public ResponseEntity<?> addMember(@RequestBody MemberDTO memberDTO){
         return new ResponseEntity<MemberDTO>(memberService.addMember(memberDTO), HttpStatus.OK);
     }
     @GetMapping

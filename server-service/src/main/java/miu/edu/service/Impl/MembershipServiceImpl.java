@@ -20,7 +20,7 @@ public class MembershipServiceImpl implements IMembershipService {
     private final MembershipAdapter membershipAdapter;
 
     @Override
-    public Optional<MembershipDTO> getMembershipById(Long id) {
+    public Optional<MembershipDTO> getMembershipsById(Long id) {
         try {
             Optional<Membership> getMemberById = membershipRepository.findById(id);
             if (getMemberById.isPresent()) {

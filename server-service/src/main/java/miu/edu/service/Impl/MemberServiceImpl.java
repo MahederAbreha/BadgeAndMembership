@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.MemberAdapter;
 import miu.edu.domain.Audit;
 import miu.edu.domain.Member;
+import miu.edu.domain.Plan;
 import miu.edu.dto.MemberDTO;
 import miu.edu.repository.MemberRepository;
 import miu.edu.service.MemberService;
@@ -70,6 +71,15 @@ public class MemberServiceImpl implements MemberService {
             return "Member deleted successfully";
         }catch (EntityNotFoundException e){
             throw new EntityNotFoundException("Failed to delete this member");
+        }
+    }
+
+    @Override
+    public List<Plan> findPlansByMemberId(Long id) {
+        try {
+            return memberRepository.findPlansByMemberId(id);
+        }catch (RuntimeException e){
+            throw new RuntimeException("Failed to find the plans");
         }
     }
 }

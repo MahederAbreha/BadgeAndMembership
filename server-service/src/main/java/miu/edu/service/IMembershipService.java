@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IMembershipService {
-    Optional<MembershipDTO> getMembershipById(Long id);
+    Optional<MembershipDTO> getMembershipsById(Long id);
 
     MembershipDTO createMembership(MembershipDTO membershipDTO);
     MembershipDTO updateMembership(MembershipDTO membershipDTO);

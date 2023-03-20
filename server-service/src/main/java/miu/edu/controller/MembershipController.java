@@ -21,7 +21,7 @@ public class MembershipController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMembershipsById(@PathVariable("id") long id) {
-        Optional<?> memberShipDTO = iMembershipService.getMembershipById(id);
+        Optional<?> memberShipDTO = iMembershipService.getMembershipsById(id);
         if (memberShipDTO.isPresent()) {
             return new ResponseEntity<>(memberShipDTO.get(), HttpStatus.CREATED);
         } else {
