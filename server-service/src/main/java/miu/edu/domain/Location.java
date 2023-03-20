@@ -38,7 +38,9 @@ public class Location {
     @JoinColumn(name = "location_id")
     private List<TimeSlot> timeSlots = new ArrayList<>();
 
-
+    public Location(long id) {
+        this.id = id;
+    }
 
     @Embedded
     private Audit audit;

@@ -56,4 +56,9 @@ public class MemberController {
     public ResponseEntity<?> getMembershipsByMemberId(@PathVariable("id") Long id){
         return new ResponseEntity<>(memberService.findMembershipsByMemberId(id), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/transactions")
+    public ResponseEntity<?> getTransactionsByMemberId(@PathVariable("id") Long id){
+        return new ResponseEntity<>(memberService.findTransactionsByMemberId(id), HttpStatus.OK);
+    }
 }
