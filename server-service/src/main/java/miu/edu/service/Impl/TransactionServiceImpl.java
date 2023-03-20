@@ -2,6 +2,7 @@ package miu.edu.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.TransactionAdapter;
+import miu.edu.domain.Audit;
 import miu.edu.domain.Transaction;
 import miu.edu.dto.TransactionDTO;
 import miu.edu.repository.TransactionRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,13 +30,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDTO addTransaction(TransactionDTO transactionDTO) {
+        Transaction transaction = transactionAdapter.DtoToEntity(transactionDTO);
+        transaction.setAudit(new Audit(LocalDateTime.now()));
         try{
-            transactionRepository.save((transactionAdapter.DtoToEntity(transactionDTO)));
-            return transactionDTO;
+            transactionRepository.save(transaction);
         }
         catch(RuntimeException e){
             throw new RuntimeException(("Failed to add the transaction"));
         }
+        return transactionAdapter.entityToDTO(transaction);
 
     }
 
