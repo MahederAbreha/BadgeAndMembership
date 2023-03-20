@@ -30,7 +30,7 @@ public class Member {
     @Column(name = "email", nullable = false)
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
     private String email;
-    @OneToMany
+    @OneToMany(mappedBy = "member")
     private List<Membership> membership = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")

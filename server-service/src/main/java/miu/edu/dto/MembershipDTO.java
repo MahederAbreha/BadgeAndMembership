@@ -3,6 +3,7 @@ package miu.edu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import miu.edu.domain.Member;
 import miu.edu.domain.Plan;
 import miu.edu.domain.Transaction;
 
@@ -23,7 +24,19 @@ public class MembershipDTO {
     private long id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private List<Plan> plan = new ArrayList<>();
+    private List<PlanDTO> planDTO = new ArrayList<>();
+    private MemberDTO memberDTO;
+    private Integer limit;
+
+    private Boolean allowMultiple;
+
+    public MembershipDTO(long id, LocalDate startDate, LocalDate endDate,int limit,Boolean allowMultiple) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.limit = limit;
+        this.allowMultiple = allowMultiple;
+    }
 
     public long getId() {
         return id;
@@ -49,11 +62,32 @@ public class MembershipDTO {
         this.endDate = endDate;
     }
 
-    public List<Plan> getPlan() {
-        return plan;
+    public List<PlanDTO> getPlanDTO() {
+        return planDTO;
     }
 
-    public void setPlan(List<Plan> plan) {
-        this.plan = plan;
+    public void setPlanDTO(List<PlanDTO> planDTO) {
+        this.planDTO = planDTO;
+    }
+
+    public MemberDTO getMemberDTO() {
+        return memberDTO;
+    }
+
+    public void setMemberDTO(MemberDTO memberDTO) {
+        this.memberDTO = memberDTO;
+    }
+
+    @Override
+    public String toString() {
+        return "MembershipDTO{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", planDTO=" + planDTO +
+                ", memberDTO=" + memberDTO +
+                ", limit=" + limit +
+                ", allowMultiple=" + allowMultiple +
+                '}';
     }
 }
