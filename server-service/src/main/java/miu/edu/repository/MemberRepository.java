@@ -3,6 +3,7 @@ package miu.edu.repository;
 import miu.edu.domain.Badge;
 import miu.edu.domain.Member;
 import miu.edu.domain.Plan;
+import miu.edu.domain.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m JOIN m.memberships b WHERE m.id = :id")
     Member findMembershipsByMemberId(@Param("id") Long id);
+
+    @Query("SELECT t FROM Transaction t where t.membership.member.id = :id")
+    List<Transaction> findTransactionsByMemberId(@Param("id") Long id);
 }

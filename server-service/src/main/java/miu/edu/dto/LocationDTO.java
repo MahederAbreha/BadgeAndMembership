@@ -20,4 +20,8 @@ public class LocationDTO {
     private String capacity;
     private LocationType locationType;
     private List<TimeSlot> timeSlots = new ArrayList<>();
+
+    public LocationDTO(long id) {
+        this.id = id;
+    }
 }
