@@ -6,19 +6,26 @@ import miu.edu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
-    @Autowired
+
     private final MemberService memberService;
     @PostMapping
-    public ResponseEntity<?> addMember(@RequestBody MemberDTO memberDTO){
-        return new ResponseEntity<MemberDTO>(memberService.addMember(memberDTO), HttpStatus.OK);
+    public ResponseEntity<?> addMember(@Valid  @RequestBody MemberDTO memberDTO, BindingResult result){
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldErrors());
+        } else {
+            return new ResponseEntity<MemberDTO>(memberService.addMember(memberDTO), HttpStatus.OK);
+        }
+
     }
     @GetMapping
     public ResponseEntity<?> getAllMembers(){
@@ -40,5 +47,13 @@ public class MemberController {
     @GetMapping("/{member_id}/plans")
     public ResponseEntity<?> getPlansByMemberId(@PathVariable Long member_id){
         return new ResponseEntity<>(memberService.findPlansByMemberId(member_id), HttpStatus.OK);
+    }
+    @GetMapping("/{id}/badges")
+    public ResponseEntity<?> getBadgeByMemberId(@PathVariable("id") Long id){
+        return new ResponseEntity<>(memberService.findBadgeByMemberId(id), HttpStatus.OK);
+    }
+    @GetMapping("/{id}/memberships")
+    public ResponseEntity<?> getMembershipsByMemberId(@PathVariable("id") Long id){
+        return new ResponseEntity<>(memberService.findMembershipsByMemberId(id), HttpStatus.OK);
     }
 }
