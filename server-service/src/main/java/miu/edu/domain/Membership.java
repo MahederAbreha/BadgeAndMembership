@@ -8,6 +8,7 @@ import miu.edu.domain.enums.DurationType;
 import miu.edu.domain.enums.MembershipType;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -44,21 +45,21 @@ public class Membership {
     private Integer limit;
 
     @Column(name = "allow_multiple", nullable = false)
-    @NotBlank(message = "Allow multiple is required")
     private Boolean allowMultiple;
 
     @Column(name = "duration_type", nullable = false)
     private DurationType durationType;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Membership(long id, LocalDate startDate, LocalDate endDate, List<Plan> plan) {
+    public Membership(long id, LocalDate startDate, LocalDate endDate, Integer limit, Boolean allowMultiple) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.plan = plan;
+        this.limit = limit;
+        this.allowMultiple = allowMultiple;
     }
 
 }
