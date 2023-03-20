@@ -35,7 +35,9 @@ public class Membership {
     private LocalDate endDate;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-    @JoinColumn(name = "membership_id")
+    @JoinTable(name = "membership_plans",
+            joinColumns = @JoinColumn(name = "membership_id"),
+            inverseJoinColumns = @JoinColumn(name = "plan_id"))
     private List<Plan> plan = new ArrayList<>();
 
     @Column(name = "membership_type", nullable = false)
