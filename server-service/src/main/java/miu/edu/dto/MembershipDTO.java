@@ -24,6 +24,7 @@ import java.util.List;
 @Data
 public class MembershipDTO {
     private long id;
+    @Past(message = "Start date must be in the past")
     private LocalDate startDate;
     private LocalDate endDate;
     private List<PlanDTO> planDTO = new ArrayList<>();
@@ -44,77 +45,6 @@ public class MembershipDTO {
         this.durationType = durationType;
     }
 
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public MembershipType getMembershipType() {
-        return membershipType;
-    }
-
-    public void setMembershipType(MembershipType membershipType) {
-        this.membershipType = membershipType;
-    }
-
-    public DurationType getDurationType() {
-        return durationType;
-    }
-
-    public void setDurationType(DurationType durationType) {
-        this.durationType = durationType;
-    }
-
-    public Boolean getAllowMultiple() {
-        return allowMultiple;
-    }
-
-    public void setAllowMultiple(Boolean allowMultiple) {
-        this.allowMultiple = allowMultiple;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public List<PlanDTO> getPlanDTO() {
-        return planDTO;
-    }
-
-    public void setPlanDTO(List<PlanDTO> planDTO) {
-        this.planDTO = planDTO;
-    }
-
-    public MemberDTO getMemberDTO() {
-        return memberDTO;
-    }
-
-    public void setMemberDTO(MemberDTO memberDTO) {
-        this.memberDTO = memberDTO;
-    }
 
     @Override
     public String toString() {
