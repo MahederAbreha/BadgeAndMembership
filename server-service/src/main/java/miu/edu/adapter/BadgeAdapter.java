@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class BadgeAdapter {
 
     public BadgeDTO entityToDTO(Badge badge){
-        return new BadgeDTO(badge.getId(), badge.getIsActive());
+        return new BadgeDTO(badge.getId(), badge.getIsActive(), badge.getMember());
     }
     public Badge DtoToEntity(BadgeDTO badgeDTO){
         return new Badge(badgeDTO.getId(), badgeDTO.getIsActive());
