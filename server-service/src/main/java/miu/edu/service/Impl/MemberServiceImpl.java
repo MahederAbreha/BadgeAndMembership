@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
             var listOfMembershipDto = memberDTO.getMembershipDTOS();
             for (MembershipDTO membershipDTO : listOfMembershipDto) {
                 var membership = membershipAdapter.dtoToEntity(membershipDTO);
-                var plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
+                List<Plan> plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
                 membership.setPlan(plan);
                 membership.setMember(member);
                 allMemberships.add(membership);
