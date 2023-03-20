@@ -34,7 +34,7 @@ public class Location {
     @NotBlank(message = "Location type is required")
     private LocationType locationType;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private List<TimeSlot> timeSlots = new ArrayList<>();
 

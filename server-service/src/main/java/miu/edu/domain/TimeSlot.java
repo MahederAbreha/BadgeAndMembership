@@ -1,5 +1,6 @@
 package miu.edu.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -24,9 +26,10 @@ public class TimeSlot {
 
     @NotBlank(message = "Start time is required")
     @Column(name = "start_time", nullable = false)
-    private LocalDate startTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotBlank(message = "End time is required")
     @Column(name = "end_time", nullable = false)
-    private LocalDate endTime;
+    private LocalDateTime endTime;
 }
