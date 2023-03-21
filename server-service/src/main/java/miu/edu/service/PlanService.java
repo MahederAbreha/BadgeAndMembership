@@ -8,7 +8,7 @@ public interface PlanService {
    public List<PlanDTO> findAllPlans();
    public PlanDTO findPlanByID(Long id);
    public PlanDTO addPlan(PlanDTO planDTO);
-   public PlanDTO updatePlan(PlanDTO planDTO, Long id);
+   public PlanDTO updatePlan(Long id, PlanDTO planDTO);
    public void deletePlan(Long id);
 
    List<LocationDTO> getAllLocationsOfPlan(Long planId);

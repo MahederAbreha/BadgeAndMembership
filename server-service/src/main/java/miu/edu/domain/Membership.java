@@ -66,6 +66,10 @@ public class Membership {
         this.durationType= durationType;
     }
 
+    public Membership(long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Membership{" +
