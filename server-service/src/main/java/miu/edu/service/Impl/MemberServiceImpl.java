@@ -122,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
         try {
             var badgeByMemberId = memberRepository.findBadgeByMemberId(id);
             var badgesDto = badgeDtosAdapter.entityToDTOAll(badgeByMemberId);
-            return badgesDto;
+            return null;
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the badge");
