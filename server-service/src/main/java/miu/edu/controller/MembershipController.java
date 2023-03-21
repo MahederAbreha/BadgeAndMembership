@@ -2,6 +2,7 @@ package miu.edu.controller;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.dto.MembershipDTO;
+import miu.edu.dto.MembershipPlanDTO;
 import miu.edu.service.IMembershipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,16 +43,17 @@ public class MembershipController {
 
 
     @PostMapping()
-    public ResponseEntity<?> createMemberships(@Valid @RequestBody MembershipDTO membershipDTO, BindingResult result) {
+    public ResponseEntity<?> createMemberships(@Valid @RequestBody MembershipPlanDTO membershipDTO, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         } else {
-            return ResponseEntity.ok(iMembershipService.createMembership(membershipDTO));
+            var createMemberships = iMembershipService.createMembership(membershipDTO);
+            return new ResponseEntity<>("Membership created successfully", HttpStatus.CREATED);
         }
     }
 
     @PutMapping()
-    public ResponseEntity<?> updateMemberships(@Valid @RequestBody MembershipDTO membershipDTO, BindingResult result) {
+    public ResponseEntity<?> updateMemberships(@Valid @RequestBody MembershipPlanDTO membershipDTO, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         } else {

@@ -2,6 +2,7 @@ package miu.edu.controller;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.dto.MemberDTO;
+import miu.edu.dto.MemberPlanDTO;
 import miu.edu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

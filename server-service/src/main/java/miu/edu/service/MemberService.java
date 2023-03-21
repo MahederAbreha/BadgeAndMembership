@@ -11,7 +11,7 @@ public interface MemberService {
     public MemberDTO updateMember(MemberDTO memberDTO);
     public String deleteById(Long id);
     public List<PlanDTO> findPlansByMemberId(Long id);
-    public List<BadgeDTO> findBadgeByMemberId(Long id);
+    public List<RequestBadgeDTO> findBadgeByMemberId(Long id);
     public List<MembershipDTO> findMembershipsByMemberId(Long id);
     public List<TransactionDTO> findTransactionsByMemberId(Long id);
 

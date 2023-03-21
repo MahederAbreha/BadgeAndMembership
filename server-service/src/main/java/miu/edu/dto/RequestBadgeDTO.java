@@ -3,19 +3,18 @@ package miu.edu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import miu.edu.domain.Member;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BadgeDTO {
+public class RequestBadgeDTO {
 
     private long id;
     private Boolean isActive;
-    private MemberDTO memberDTO;
+    private long memberId;
 
-    public BadgeDTO(long id, Boolean isActive) {
+    public RequestBadgeDTO(long id, Boolean isActive) {
         this.id = id;
         this.isActive = isActive;
     }

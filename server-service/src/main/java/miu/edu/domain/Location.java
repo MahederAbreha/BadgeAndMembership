@@ -31,10 +31,9 @@ public class Location {
     private String capacity;
 
     @Column(name = "location_type", nullable = false)
-    @NotBlank(message = "Location type is required")
     private LocationType locationType;
 
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private List<TimeSlot> timeSlots = new ArrayList<>();
 
@@ -45,12 +44,13 @@ public class Location {
     @Embedded
     private Audit audit;
 
-    public Location(long id, String name, String description, String capacity, LocationType locationType) {
+    public Location(long id, String name, String description, String capacity, LocationType locationType,List<TimeSlot> timeSlots) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.capacity = capacity;
         this.locationType = locationType;
+        this.timeSlots = timeSlots;
     }
 
     public Location(long id, String name, String description, String capacity, LocationType locationType, List<TimeSlot> timeSlots) {

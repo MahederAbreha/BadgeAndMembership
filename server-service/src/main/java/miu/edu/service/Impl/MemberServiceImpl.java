@@ -2,7 +2,9 @@ package miu.edu.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.*;
-import miu.edu.domain.*;
+import miu.edu.domain.Audit;
+import miu.edu.domain.Member;
+import miu.edu.domain.Transaction;
 import miu.edu.dto.*;
 import miu.edu.repository.MemberRepository;
 import miu.edu.service.MemberService;
@@ -11,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberAdapter memberAdapter;
+    private final RequestBadgeDTOAdapter requestBadgeDTOAdapter ;
+
+    //  private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
     private final BadgeAdapter badgeAdapter;
     private final MembershipAdapter membershipAdapter;
@@ -34,28 +38,10 @@ public class MemberServiceImpl implements MemberService {
 
         try {
             var member = memberAdapter.DtoToEntity(memberDTO);
-            var badge = badgeAdapter.dtoToEntityAll(memberDTO.getBadgeDTOS());
-            badge.forEach(item->item.setMember(member));
-//            for (Badge badgeItem : badge) {
-//                badgeItem.setMember(member);
-//            }
-
-            List<Membership> allMemberships = new ArrayList<>();
-            var listOfMembershipDto = memberDTO.getMembershipDTOS();
-            for (MembershipDTO membershipDTO : listOfMembershipDto) {
-                var membership = membershipAdapter.dtoToEntity(membershipDTO);
-                List<Plan> plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
-                membership.setPlan(plan);
-                membership.setMember(member);
-                allMemberships.add(membership);
-            }
             var roleTypes = roleAdapter.dtoToEntityAll(memberDTO.getRoleTypes());
-            member.setBadges(badge);
-            member.setMemberships(allMemberships);
             member.setRoleTypes(roleTypes);
             member.setAudit(new Audit(LocalDateTime.now()));
             memberRepository.save(member);
-
             return memberAdapter.entityToDTO(member);
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to add this member" + e.getMessage() + e.getCause());
@@ -109,14 +95,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<BadgeDTO> findBadgeByMemberId(Long id) {
+    public List<RequestBadgeDTO> findBadgeByMemberId(Long id) {
         try {
-//            var badgeByMemberId = memberRepository.findBadgeByMemberId(id);
-//            var memberDto = memberAdapter.entityToDTO(badgeByMemberId);
-//            var badgesDto = badgeAdapter.entityToDTOAll(badgeByMemberId.getBadges());
-//            memberDto.setBadgeDTOS(badgesDto);
             var badgeByMemberId = memberRepository.findBadgeByMemberId(id);
-            return badgeAdapter.entityToDTOAll(badgeByMemberId);
+            var member = memberRepository.findById(id).get();
+            var badgeDto = requestBadgeDTOAdapter.entityToDTOAll(badgeByMemberId);
+            badgeDto.forEach(badgeDTO -> badgeDTO.setMemberId(member.getId()));
+            return badgeDto;
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the badge");
@@ -126,23 +111,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MembershipDTO> findMembershipsByMemberId(Long id) {
         try {
-            List<Membership> memberships = memberRepository.findMembershipsByMemberId(id);
-//            var memberDto = memberAdapter.entityToDTO(membershipsByMemberId);
-//
-//            var membershipPlans = membershipsByMemberId.getMemberships();
-//            var membershipsDto = membershipAdapter.entityToDTOAll(membershipsByMemberId.getMemberships());
-//            List<PlanDTO> planDTOS = membershipPlans.stream()
-//                    .flatMap(membership -> membership.getPlan().stream())
-//                    .map(planAdapter::entityToDto).collect(Collectors.toList());
-//
-//            membershipsDto.stream().map(membership -> {
-//                membership.setPlanDTO(planDTOS);
-//                return membership;
-//            }).collect(Collectors.toList());
-//
-//            memberDto.setMembershipDTOS(membershipsDto);
-//            return memberDto;
-            return membershipAdapter.entityToDTOAll(memberships);
+            var membershipsByMemberId = memberRepository.findMembershipsByMemberId(id);
+            List<MembershipDTO> membershipDTOS = membershipsByMemberId.stream()
+                    .map(membership -> membershipAdapter.entityToDTO(membership)).collect(Collectors.toList());
+
+
+            return membershipDTOS;
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the badge");
@@ -151,10 +125,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<TransactionDTO> findTransactionsByMemberId(Long id) {
-        try{
+        try {
             List<Transaction> transactions = memberRepository.findTransactionsByMemberId(id);
             return transactionAdapter.entityToDtoAll(transactions);
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the transations.");
         }
     }
