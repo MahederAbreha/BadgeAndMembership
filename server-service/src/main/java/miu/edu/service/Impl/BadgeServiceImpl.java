@@ -66,7 +66,9 @@ public class BadgeServiceImpl implements BadgeService {
         if (memberBadges.isEmpty()) {
             throw new RuntimeException("Badge not found");
         } else {
-            return memberBadges.get().stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).collect(Collectors.toList());
+            return memberBadges.get().stream()
+                    .map(badge -> modelMapper.map(badge, BadgeDTO.class))
+                    .collect(Collectors.toList());
         }
     }
 

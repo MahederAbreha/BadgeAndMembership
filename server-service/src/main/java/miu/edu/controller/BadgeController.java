@@ -43,4 +43,14 @@ public class BadgeController {
         return new ResponseEntity<String>("Badge Deleted successfully.", HttpStatus.OK);
     }
 
+    @GetMapping("/active/{member_id}")
+    public ResponseEntity<?> getActiveBadgeByMemberId(@PathVariable long member_id){
+        return new ResponseEntity< BadgeDTO >(badgeService.findActiveBadgeByMemberId(member_id), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/{member_id}")
+    public ResponseEntity<?> getAllBadgesByMemberId(@PathVariable long member_id){
+        return new ResponseEntity<List< BadgeDTO >>(badgeService.findAllBadgesByMemberId(member_id), HttpStatus.OK);
+    }
+
 }

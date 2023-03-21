@@ -3,7 +3,6 @@ package miu.edu.adapter;
 import miu.edu.domain.Badge;
 import miu.edu.dto.BadgeDTO;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
