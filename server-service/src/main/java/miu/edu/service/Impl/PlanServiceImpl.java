@@ -55,7 +55,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public PlanDTO updatePlan(PlanDTO planDTO, Long id) {
+    public PlanDTO updatePlan(Long id, PlanDTO planDTO) {
         Plan plan = planAdapter.dtoToEntity(planDTO);
         try {
             planRepository.save(plan);
@@ -78,13 +78,13 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public List<LocationDTO> getAllLocationsOfPlan(Long planId) {
-//        try {
-//            Plan plan = planRepository.findById(planId).get();
-//        } catch (RuntimeException e) {
-//            throw new RuntimeException("Failed to fined plan for plan id " + planId);
-//        }
-//        List<Location> locations = plan.getMembership.locations;
-//        return locationAdapter.entityToDtoAll(locations);
-        return null;
+
+        try {
+            Plan plan = planRepository.findById(planId).get();
+            List<Location> locations = plan.getLocations();
+            return  locationAdapter.entityToDtoAll(locations);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to fined plan for plan id " + planId);
+        }
     }
 }
