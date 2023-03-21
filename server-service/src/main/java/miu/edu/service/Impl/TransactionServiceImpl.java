@@ -31,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDTO addTransaction(TransactionDTO transactionDTO) {
         Transaction transaction = transactionAdapter.DtoToEntity(transactionDTO);
-        transaction.setAudit(new Audit(LocalDateTime.now()));
+       // transaction.setAudit(new Audit(LocalDateTime.now()));
         try{
             transactionRepository.save(transaction);
         }

@@ -3,13 +3,19 @@ package miu.edu.service.Impl;
 import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.MemberAdapter;
 import miu.edu.adapter.MembershipAdapter;
+import miu.edu.adapter.MembershipPlanAdapter;
 import miu.edu.adapter.PlanAdapter;
 import miu.edu.domain.Membership;
+import miu.edu.domain.Plan;
 import miu.edu.dto.MembershipDTO;
+import miu.edu.dto.MembershipPlanDTO;
+import miu.edu.repository.MemberRepository;
 import miu.edu.repository.MembershipRepository;
+import miu.edu.repository.PlanRepository;
 import miu.edu.service.IMembershipService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +23,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MembershipServiceImpl implements IMembershipService {
 
-
+private final MemberRepository memberRepository;
+private final PlanRepository planRepository;
     private final MembershipRepository membershipRepository;
 
     private final MembershipAdapter membershipAdapter;
+    private final MembershipPlanAdapter membershipPlanAdapter;
+
+
 
     private final PlanAdapter planAdapter;
 
@@ -32,7 +42,8 @@ public class MembershipServiceImpl implements IMembershipService {
             Optional<Membership> getMemberShipById = membershipRepository.findById(id);
             if (getMemberShipById.isPresent()) {
                 var membershipDTO = membershipAdapter.entityToDTO(getMemberShipById.get());
-                var planDtoList = planAdapter.entityToDtoAll(getMemberShipById.get().getPlan());
+                var planList = memberRepository.findPlansByMemberId(getMemberShipById.get().getMember().getId());
+                var planDtoList = planAdapter.entityToDtoAll(planList);
                 var memberDtoList = memberAdapter.entityToDTO(getMemberShipById.get().getMember());
                 membershipDTO.setPlanDTO(planDtoList);
                 membershipDTO.setMemberDTO(memberDtoList);
@@ -46,13 +57,20 @@ public class MembershipServiceImpl implements IMembershipService {
     }
 
     @Override
-    public MembershipDTO createMembership(MembershipDTO membershipDTO) {
+    public MembershipPlanDTO createMembership(MembershipPlanDTO membershipDTO) {
 
-        try {
-            var membership = membershipAdapter.dtoToEntity(membershipDTO);
-            var plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
+
+            var membership = membershipPlanAdapter.dtoToEntity(membershipDTO);
+
+            List<Plan> plansLists = new ArrayList<>();
+            for (var plan : membershipDTO.getPlanId()) {
+                plansLists.add(planRepository.findById(plan).get());
+            }
+
+       //     var planList = memberRepository.findPlansByMemberId(membershipDTO.getMemberDTO().getId());
+//            var plan = planAdapter.dtoToEntityAll(planList);
             var member = memberAdapter.DtoToEntity(membershipDTO.getMemberDTO());
-            membership.setPlan(plan);
+            membership.setPlan(plansLists);
             membership.setMember(member);
             membershipRepository.save(membership);
             var membershipDto = membershipAdapter.entityToDTO(membership);
@@ -60,19 +78,17 @@ public class MembershipServiceImpl implements IMembershipService {
             var memberDtoList = memberAdapter.entityToDTO(membership.getMember());
             membershipDto.setPlanDTO(planDtoList);
             membershipDto.setMemberDTO(memberDtoList);
-            return membershipDto;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create the membership");
-        }
+            return membershipDTO;
+
 
 
     }
 
 
     @Override
-    public MembershipDTO updateMembership(MembershipDTO membershipDTO) {
+    public MembershipPlanDTO updateMembership(MembershipPlanDTO membershipDTO) {
         try {
-            Membership membershipEntity = membershipAdapter.dtoToEntity(membershipDTO);
+            Membership membershipEntity = membershipPlanAdapter.dtoToEntity(membershipDTO);
             Optional<Membership> membership = membershipRepository.findById(membershipEntity.getId());
             if (membership.isPresent()) {
                 var update = createMembership(membershipDTO);

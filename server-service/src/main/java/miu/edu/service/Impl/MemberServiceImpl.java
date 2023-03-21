@@ -6,7 +6,6 @@ import miu.edu.domain.*;
 import miu.edu.dto.*;
 import miu.edu.repository.MemberRepository;
 import miu.edu.service.MemberService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberAdapter memberAdapter;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    //  private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
     private final BadgeAdapter badgeAdapter;
     private final MembershipAdapter membershipAdapter;
@@ -37,9 +36,9 @@ public class MemberServiceImpl implements MemberService {
 
         try {
             var member = memberAdapter.DtoToEntity(memberDTO);
-            String encpasswd = bCryptPasswordEncoder.encode("User.getPassword()");
-            User user = new User();
-            user.setPassword(encpasswd);
+            //    String encpasswd = bCryptPasswordEncoder.encode("User.getPassword()");
+            //    User user = new User();
+            //     user.setPassword(encpasswd);
             var badge = badgeAdapter.dtoToEntityAll(memberDTO.getBadgeDTOS());
             badge.forEach(item -> item.setMember(member));
 //            for (Badge badgeItem : badge) {
@@ -50,8 +49,9 @@ public class MemberServiceImpl implements MemberService {
             var listOfMembershipDto = memberDTO.getMembershipDTOS();
             for (MembershipDTO membershipDTO : listOfMembershipDto) {
                 var membership = membershipAdapter.dtoToEntity(membershipDTO);
-                List<Plan> plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
-                membership.setPlan(plan);
+                var plans = findPlansByMemberId(membership.getId());
+                List<Plan> planList = planAdapter.dtoToEntityAll(plans);
+                membership.setPlan(planList);
                 membership.setMember(member);
                 allMemberships.add(membership);
             }
@@ -141,12 +141,12 @@ public class MemberServiceImpl implements MemberService {
                     .flatMap(membership -> membership.getPlan().stream())
                     .map(planAdapter::entityToDto).collect(Collectors.toList());
 
-            membershipsDto.stream().map(membership -> {
-                membership.setPlanDTO(planDTOS);
-                return membership;
-            }).collect(Collectors.toList());
-
-            memberDto.setMembershipDTOS(membershipsDto);
+//            membershipsDto.stream().map(membership -> {
+//                membership.setPlanDTO(planDTOS);
+//                return membership;
+//            }).collect(Collectors.toList());
+//
+//           memberDto.setMembershipDTOS(membershipsDto);
             return memberDto;
 
         } catch (RuntimeException e) {
@@ -156,10 +156,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<TransactionDTO> findTransactionsByMemberId(Long id) {
-        try{
+        try {
             List<Transaction> transactions = memberRepository.findTransactionsByMemberId(id);
             return transactionAdapter.entityToDtoAll(transactions);
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the transations.");
         }
     }

@@ -34,7 +34,7 @@ public class Membership {
     @Column(name = "end_date",nullable = false)
     private LocalDate endDate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.PERSIST,orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinTable(name = "membership_plans",
             joinColumns = @JoinColumn(name = "membership_id"),
             inverseJoinColumns = @JoinColumn(name = "plan_id"))

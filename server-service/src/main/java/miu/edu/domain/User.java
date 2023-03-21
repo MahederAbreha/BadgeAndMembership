@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
