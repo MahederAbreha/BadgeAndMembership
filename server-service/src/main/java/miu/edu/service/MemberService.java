@@ -1,11 +1,9 @@
 package miu.edu.service;
 
-import miu.edu.domain.Plan;
 import miu.edu.dto.BadgeDTO;
 import miu.edu.dto.MemberDTO;
 import miu.edu.dto.PlanDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import miu.edu.dto.TransactionDTO;
 
 import java.util.List;
 
@@ -18,5 +16,6 @@ public interface MemberService {
     public List<PlanDTO> findPlansByMemberId(Long id);
     public List<BadgeDTO> findBadgeByMemberId(Long id);
     public MemberDTO findMembershipsByMemberId(Long id);
+    public List<TransactionDTO> findTransactionsByMemberId(Long id);
 
 }

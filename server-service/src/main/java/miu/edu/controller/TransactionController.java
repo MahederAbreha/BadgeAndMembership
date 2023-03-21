@@ -19,21 +19,21 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<?> addTransaction(TransactionDTO transactionDTO){
-        transactionService.addTransaction(transactionDTO);
-        return new ResponseEntity<String>("Transaction saved.", HttpStatus.OK);
+    public ResponseEntity<?> addTransaction(@RequestBody TransactionDTO transactionDTO){
+        System.out.println(transactionDTO);
+        return new ResponseEntity<TransactionDTO>(transactionService.addTransaction(transactionDTO), HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity<?> getAllTransactions(){
         return new ResponseEntity<List<TransactionDTO>>(transactionService.findAllTransaction(), HttpStatus.OK);
     }
 
-    @GetMapping("/{member_id}")
+    @GetMapping("/{transaction_id}")
     public ResponseEntity<?> getTransaction(@PathVariable Long transaction_id){
         return new ResponseEntity<TransactionDTO>(transactionService.findById(transaction_id), HttpStatus.OK);
     }
     @PutMapping
-    public ResponseEntity<?> updateTransaction(TransactionDTO transactionDTO){
+    public ResponseEntity<?> updateTransaction(@RequestBody TransactionDTO transactionDTO){
         return new ResponseEntity<TransactionDTO>(transactionService.updateTransaction(transactionDTO), HttpStatus.OK);
     }
 

@@ -45,6 +45,9 @@ public class MembershipDTO {
         this.durationType = durationType;
     }
 
+    public MembershipDTO(long id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {

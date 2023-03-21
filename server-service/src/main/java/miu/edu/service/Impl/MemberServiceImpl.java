@@ -3,10 +3,7 @@ package miu.edu.service.Impl;
 import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.*;
 import miu.edu.domain.*;
-import miu.edu.dto.BadgeDTO;
-import miu.edu.dto.MemberDTO;
-import miu.edu.dto.MembershipDTO;
-import miu.edu.dto.PlanDTO;
+import miu.edu.dto.*;
 import miu.edu.repository.MemberRepository;
 import miu.edu.service.MemberService;
 import org.springframework.stereotype.Service;
@@ -30,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     private final MembershipAdapter membershipAdapter;
     private final RoleAdapter roleAdapter;
     private final PlanAdapter planAdapter;
+    private final TransactionAdapter transactionAdapter;
 
     @Override
     public MemberDTO addMember(MemberDTO memberDTO) {
@@ -147,6 +145,16 @@ public class MemberServiceImpl implements MemberService {
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the badge");
+        }
+    }
+
+    @Override
+    public List<TransactionDTO> findTransactionsByMemberId(Long id) {
+        try{
+            List<Transaction> transactions = memberRepository.findTransactionsByMemberId(id);
+            return transactionAdapter.entityToDtoAll(transactions);
+        }catch(RuntimeException e){
+            throw new RuntimeException("Failed to find the transations.");
         }
     }
 
