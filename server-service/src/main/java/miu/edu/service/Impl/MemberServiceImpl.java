@@ -7,6 +7,7 @@ import miu.edu.domain.Member;
 import miu.edu.domain.Transaction;
 import miu.edu.dto.*;
 import miu.edu.repository.MemberRepository;
+import miu.edu.repository.MembershipRepository;
 import miu.edu.service.MemberService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberAdapter memberAdapter;
-    private final RequestBadgeDTOAdapter requestBadgeDTOAdapter ;
+    private final RequestBadgeDTOAdapter requestBadgeDTOAdapter;
 
     //  private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
@@ -32,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
     private final RoleAdapter roleAdapter;
     private final PlanAdapter planAdapter;
     private final TransactionAdapter transactionAdapter;
+    private final MembershipRepository membershipRepository;
 
     @Override
     public MemberDTO addMember(MemberDTO memberDTO) {
@@ -112,12 +115,15 @@ public class MemberServiceImpl implements MemberService {
     public List<MembershipDTO> findMembershipsByMemberId(Long id) {
         try {
             var membershipsByMemberId = memberRepository.findMembershipsByMemberId(id);
-            List<MembershipDTO> membershipDTOS = membershipsByMemberId.stream()
-                    .map(membership -> membershipAdapter.entityToDTO(membership)).collect(Collectors.toList());
-
-
+            List<MembershipDTO> membershipDTOS = membershipsByMemberId.stream().flatMap(membership -> {
+                var membershipDTO = membershipAdapter.entityToDTO(membership);
+                var memberDTO = memberAdapter.entityToDTO(membership.getMember());
+                var planDTO = planAdapter.entityToDtoAll(membership.getPlan());
+                membershipDTO.setMemberDTO(memberDTO);
+                membershipDTO.setPlanDTO(planDTO);
+                return Stream.of(membershipDTO);
+            }).collect(Collectors.toList());
             return membershipDTOS;
-
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the badge");
         }
