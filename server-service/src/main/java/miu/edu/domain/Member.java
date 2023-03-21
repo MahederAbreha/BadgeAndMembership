@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Member {
+public class Member  {
     @Id
     @GeneratedValue
     @Column(name = "member_id")
