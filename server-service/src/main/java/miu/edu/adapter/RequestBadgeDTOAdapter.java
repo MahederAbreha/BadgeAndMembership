@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class BadgeDtosAdapter {
+public class RequestBadgeDTOAdapter {
 
     public RequestBadgeDTO entityToDTO(Badge badge){
         return new RequestBadgeDTO(badge.getId(), badge.getIsActive());

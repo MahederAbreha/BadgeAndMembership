@@ -1,5 +1,6 @@
 package miu.edu.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Badge {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
+    @JsonBackReference
     private Member member;
 
     @Embedded

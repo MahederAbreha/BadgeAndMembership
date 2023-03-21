@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberAdapter memberAdapter;
+    private final RequestBadgeDTOAdapter requestBadgeDTOAdapter ;
 
     //  private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
@@ -94,11 +95,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<BadgeDTO> findBadgeByMemberId(Long id) {
+    public List<RequestBadgeDTO> findBadgeByMemberId(Long id) {
         try {
             var badgeByMemberId = memberRepository.findBadgeByMemberId(id);
             var member = memberRepository.findById(id).get();
-            var badgeDto = badgeAdapter.entityToDTOAll(badgeByMemberId);
+            var badgeDto = requestBadgeDTOAdapter.entityToDTOAll(badgeByMemberId);
             badgeDto.forEach(badgeDTO -> badgeDTO.setMemberId(member.getId()));
             return badgeDto;
 
