@@ -124,24 +124,25 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO findMembershipsByMemberId(Long id) {
+    public List<MembershipDTO> findMembershipsByMemberId(Long id) {
         try {
-            var membershipsByMemberId = memberRepository.findMembershipsByMemberId(id);
-            var memberDto = memberAdapter.entityToDTO(membershipsByMemberId);
-
-            var membershipPlans = membershipsByMemberId.getMemberships();
-            var membershipsDto = membershipAdapter.entityToDTOAll(membershipsByMemberId.getMemberships());
-            List<PlanDTO> planDTOS = membershipPlans.stream()
-                    .flatMap(membership -> membership.getPlan().stream())
-                    .map(planAdapter::entityToDto).collect(Collectors.toList());
-
-            membershipsDto.stream().map(membership -> {
-                membership.setPlanDTO(planDTOS);
-                return membership;
-            }).collect(Collectors.toList());
-
-            memberDto.setMembershipDTOS(membershipsDto);
-            return memberDto;
+            List<Membership> memberships = memberRepository.findMembershipsByMemberId(id);
+//            var memberDto = memberAdapter.entityToDTO(membershipsByMemberId);
+//
+//            var membershipPlans = membershipsByMemberId.getMemberships();
+//            var membershipsDto = membershipAdapter.entityToDTOAll(membershipsByMemberId.getMemberships());
+//            List<PlanDTO> planDTOS = membershipPlans.stream()
+//                    .flatMap(membership -> membership.getPlan().stream())
+//                    .map(planAdapter::entityToDto).collect(Collectors.toList());
+//
+//            membershipsDto.stream().map(membership -> {
+//                membership.setPlanDTO(planDTOS);
+//                return membership;
+//            }).collect(Collectors.toList());
+//
+//            memberDto.setMembershipDTOS(membershipsDto);
+//            return memberDto;
+            return membershipAdapter.entityToDTOAll(memberships);
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the badge");
