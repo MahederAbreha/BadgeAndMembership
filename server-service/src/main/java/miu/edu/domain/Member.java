@@ -30,7 +30,9 @@ public class Member {
     @Column(name = "email", nullable = false)
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Invalid email format")
     private String email;
-
+//    @Column(name = "password", nullable = false)
+//    @NotBlank(message = "Password is required")
+//    private String password;
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Badge> badges = new ArrayList<>();
     @Embedded
@@ -58,10 +60,10 @@ public class Member {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
-               ", badges=" + badges +
+                ", badges=" + badges +
                 ", audit=" + audit +
                 ", roleTypes=" + roleTypes +
-            //    ", memberships=" + memberships +
+                //    ", memberships=" + memberships +
                 '}';
     }
 }

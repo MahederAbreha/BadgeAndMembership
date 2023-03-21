@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberAdapter memberAdapter;
+
+    //  private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
     private final BadgeAdapter badgeAdapter;
     private final MembershipAdapter membershipAdapter;
@@ -34,8 +36,11 @@ public class MemberServiceImpl implements MemberService {
 
         try {
             var member = memberAdapter.DtoToEntity(memberDTO);
+            //    String encpasswd = bCryptPasswordEncoder.encode("User.getPassword()");
+            //    User user = new User();
+            //     user.setPassword(encpasswd);
             var badge = badgeAdapter.dtoToEntityAll(memberDTO.getBadgeDTOS());
-            badge.forEach(item->item.setMember(member));
+            badge.forEach(item -> item.setMember(member));
 //            for (Badge badgeItem : badge) {
 //                badgeItem.setMember(member);
 //            }
@@ -44,15 +49,16 @@ public class MemberServiceImpl implements MemberService {
             var listOfMembershipDto = memberDTO.getMembershipDTOS();
             for (MembershipDTO membershipDTO : listOfMembershipDto) {
                 var membership = membershipAdapter.dtoToEntity(membershipDTO);
-                List<Plan> plan = planAdapter.dtoToEntityAll(membershipDTO.getPlanDTO());
-                membership.setPlan(plan);
+                var plans = findPlansByMemberId(membership.getId());
+                List<Plan> planList = planAdapter.dtoToEntityAll(plans);
+                membership.setPlan(planList);
                 membership.setMember(member);
                 allMemberships.add(membership);
             }
             var roleTypes = roleAdapter.dtoToEntityAll(memberDTO.getRoleTypes());
             member.setBadges(badge);
             member.setMemberships(allMemberships);
-            member.setRoleTypes(roleTypes);
+            // member.setRoleTypes(roleTypes);
             member.setAudit(new Audit(LocalDateTime.now()));
             memberRepository.save(member);
 
@@ -135,12 +141,12 @@ public class MemberServiceImpl implements MemberService {
                     .flatMap(membership -> membership.getPlan().stream())
                     .map(planAdapter::entityToDto).collect(Collectors.toList());
 
-            membershipsDto.stream().map(membership -> {
-                membership.setPlanDTO(planDTOS);
-                return membership;
-            }).collect(Collectors.toList());
-
-            memberDto.setMembershipDTOS(membershipsDto);
+//            membershipsDto.stream().map(membership -> {
+//                membership.setPlanDTO(planDTOS);
+//                return membership;
+//            }).collect(Collectors.toList());
+//
+//           memberDto.setMembershipDTOS(membershipsDto);
             return memberDto;
 
         } catch (RuntimeException e) {
@@ -150,10 +156,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<TransactionDTO> findTransactionsByMemberId(Long id) {
-        try{
+        try {
             List<Transaction> transactions = memberRepository.findTransactionsByMemberId(id);
             return transactionAdapter.entityToDtoAll(transactions);
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the transations.");
         }
     }
