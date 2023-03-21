@@ -9,6 +9,7 @@ import miu.edu.dto.MembershipDTO;
 import miu.edu.dto.PlanDTO;
 import miu.edu.repository.MemberRepository;
 import miu.edu.service.MemberService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberAdapter memberAdapter;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
     private final BadgeAdapter badgeAdapter;
     private final MembershipAdapter membershipAdapter;
@@ -36,8 +39,11 @@ public class MemberServiceImpl implements MemberService {
 
         try {
             var member = memberAdapter.DtoToEntity(memberDTO);
+            String encpasswd = bCryptPasswordEncoder.encode("User.getPassword()");
+            User user = new User();
+            user.setPassword(encpasswd);
             var badge = badgeAdapter.dtoToEntityAll(memberDTO.getBadgeDTOS());
-            badge.forEach(item->item.setMember(member));
+            badge.forEach(item -> item.setMember(member));
 //            for (Badge badgeItem : badge) {
 //                badgeItem.setMember(member);
 //            }
@@ -54,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
             var roleTypes = roleAdapter.dtoToEntityAll(memberDTO.getRoleTypes());
             member.setBadges(badge);
             member.setMemberships(allMemberships);
-            member.setRoleTypes(roleTypes);
+            // member.setRoleTypes(roleTypes);
             member.setAudit(new Audit(LocalDateTime.now()));
             memberRepository.save(member);
 
