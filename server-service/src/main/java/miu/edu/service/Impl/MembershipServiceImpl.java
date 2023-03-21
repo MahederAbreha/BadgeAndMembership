@@ -23,13 +23,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MembershipServiceImpl implements IMembershipService {
 
-private final MemberRepository memberRepository;
-private final PlanRepository planRepository;
+    private final MemberRepository memberRepository;
+    private final PlanRepository planRepository;
     private final MembershipRepository membershipRepository;
 
     private final MembershipAdapter membershipAdapter;
     private final MembershipPlanAdapter membershipPlanAdapter;
-
 
 
     private final PlanAdapter planAdapter;
@@ -60,26 +59,21 @@ private final PlanRepository planRepository;
     public MembershipPlanDTO createMembership(MembershipPlanDTO membershipDTO) {
 
 
-            var membership = membershipPlanAdapter.dtoToEntity(membershipDTO);
-
-            List<Plan> plansLists = new ArrayList<>();
-            for (var plan : membershipDTO.getPlanId()) {
-                plansLists.add(planRepository.findById(plan).get());
-            }
-
-       //     var planList = memberRepository.findPlansByMemberId(membershipDTO.getMemberDTO().getId());
-//            var plan = planAdapter.dtoToEntityAll(planList);
-            var member = memberAdapter.DtoToEntity(membershipDTO.getMemberDTO());
-            membership.setPlan(plansLists);
-            membership.setMember(member);
-            membershipRepository.save(membership);
-            var membershipDto = membershipAdapter.entityToDTO(membership);
-            var planDtoList = planAdapter.entityToDtoAll(membership.getPlan());
-            var memberDtoList = memberAdapter.entityToDTO(membership.getMember());
-            membershipDto.setPlanDTO(planDtoList);
-            membershipDto.setMemberDTO(memberDtoList);
-            return membershipDTO;
-
+        var membership = membershipPlanAdapter.dtoToEntity(membershipDTO);
+        var member = memberRepository.findById(membershipDTO.getMemberId());
+        List<Plan> plansLists = new ArrayList<>();
+        for (var plan : membershipDTO.getPlanId()) {
+            plansLists.add(planRepository.findById(plan).get());
+        }
+        membership.setPlan(plansLists);
+        membership.setMember(member.get());
+        membershipRepository.save(membership);
+        var membershipDto = membershipAdapter.entityToDTO(membership);
+        var planDtoList = planAdapter.entityToDtoAll(membership.getPlan());
+        var memberDtoList = memberAdapter.entityToDTO(membership.getMember());
+        membershipDto.setPlanDTO(planDtoList);
+        membershipDto.setMemberDTO(memberDtoList);
+        return membershipDTO;
 
 
     }

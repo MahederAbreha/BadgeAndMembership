@@ -13,5 +13,10 @@ public class BadgeDTO {
 
     private long id;
     private Boolean isActive;
-    private Member member;
+    private Long memberId;
+
+    public BadgeDTO(long id, Boolean isActive) {
+        this.id = id;
+        this.isActive = isActive;
+    }
 }

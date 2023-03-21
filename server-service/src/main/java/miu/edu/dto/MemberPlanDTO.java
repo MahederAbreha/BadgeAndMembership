@@ -15,14 +15,16 @@ public class MemberPlanDTO {
     private String firstname;
     private String lastname;
     private String  email;
+    private String  password;
     private List<BadgeDTO> badgeDTOS = new ArrayList<>();
     private List<RoleDTO> roleTypes = new ArrayList<>();
     private List<MembershipDTO> membershipDTOS = new ArrayList<>();
     private List<Long> plansId = new ArrayList<>();
-    public MemberPlanDTO(Long id , String firstname, String lastname, String email) {
+    public MemberPlanDTO(Long id , String firstname, String lastname, String email,String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.password = password;
     }
 }

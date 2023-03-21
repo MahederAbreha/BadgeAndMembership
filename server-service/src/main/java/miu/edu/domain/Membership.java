@@ -3,14 +3,11 @@ package miu.edu.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import miu.edu.adapter.PlanAdapter;
 import miu.edu.domain.enums.DurationType;
 import miu.edu.domain.enums.MembershipType;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,10 +28,10 @@ public class Membership {
     private LocalDate startDate;
 
     @Future(message = "End date must be in the future")
-    @Column(name = "end_date",nullable = false)
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "membership_plans",
             joinColumns = @JoinColumn(name = "membership_id"),
             inverseJoinColumns = @JoinColumn(name = "plan_id"))
@@ -63,7 +60,7 @@ public class Membership {
         this.limit = limit;
         this.allowMultiple = allowMultiple;
         this.membershipType = membershipType;
-        this.durationType= durationType;
+        this.durationType = durationType;
     }
 
     public Membership(long id) {
