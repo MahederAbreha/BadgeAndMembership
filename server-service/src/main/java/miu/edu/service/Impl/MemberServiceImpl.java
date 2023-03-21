@@ -2,7 +2,9 @@ package miu.edu.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.*;
-import miu.edu.domain.*;
+import miu.edu.domain.Audit;
+import miu.edu.domain.Member;
+import miu.edu.domain.Transaction;
 import miu.edu.dto.*;
 import miu.edu.repository.MemberRepository;
 import miu.edu.service.MemberService;
@@ -11,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -96,7 +97,10 @@ public class MemberServiceImpl implements MemberService {
     public List<BadgeDTO> findBadgeByMemberId(Long id) {
         try {
             var badgeByMemberId = memberRepository.findBadgeByMemberId(id);
-            return badgeAdapter.entityToDTOAll(badgeByMemberId);
+            var member = memberRepository.findById(id).get();
+            var badgeDto = badgeAdapter.entityToDTOAll(badgeByMemberId);
+            badgeDto.forEach(badgeDTO -> badgeDTO.setMemberId(member.getId()));
+            return badgeDto;
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to find the badge");

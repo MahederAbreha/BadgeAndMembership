@@ -20,11 +20,11 @@ public class MemberController {
 
     private final MemberService memberService;
     @PostMapping
-    public ResponseEntity<?> addMember(@Valid  @RequestBody MemberPlanDTO memberDTO, BindingResult result){
+    public ResponseEntity<?> addMember(@Valid  @RequestBody MemberDTO memberDTO, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldErrors());
         } else {
-            return new ResponseEntity<MemberPlanDTO>(memberService.addMember(memberDTO), HttpStatus.OK);
+            return new ResponseEntity<MemberDTO>(memberService.addMember(memberDTO), HttpStatus.OK);
         }
 
     }
