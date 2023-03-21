@@ -45,8 +45,9 @@ public class ScanServiceImpl implements ScanService {
         transaction.setAudit(new Audit(LocalDateTime.now()));
         transaction.setLocation(location);
         try {
-            List<Membership> memberships = membershipRepository.findFirstByMemberAndPlanAndLocation(member_id, plan_id, location_id);
-            Membership membership = memberships.get(0);
+//            List<Membership> memberships = membershipRepository.findFirstByMemberAndPlanAndLocation(member_id, plan_id, location_id);
+//            Membership membership = memberships.get(0);
+            Membership membership = membershipRepository.findFirstByMemberAndPlanAndLocation(member_id, plan_id, location_id);
             transaction.setMembership(membership);
             transaction.setTransactionDateTime(LocalDateTime.now());
             Optional<TimeSlot> timeSlot = Optional.ofNullable(locationRepository.findFirstByTimeSlotsByLocationAndTime(location.getId(), LocalDateTime.now()));
