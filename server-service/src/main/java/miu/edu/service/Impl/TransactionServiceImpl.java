@@ -56,13 +56,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
+        Transaction transaction = transactionAdapter.DtoToEntity(transactionDTO);
+        transaction.setAudit(new Audit(LocalDateTime.now()));
         try{
-            transactionRepository.save(transactionAdapter.DtoToEntity(transactionDTO));
-            return transactionDTO;
+            transactionRepository.save(transaction);
         }
-        catch (RuntimeException e){
-            throw new RuntimeException("Failed to update the Transaction.");
+        catch(RuntimeException e){
+            throw new RuntimeException(("Failed to update the transaction"));
         }
+        return transactionAdapter.entityToDTO(transaction);
     }
 
     @Override

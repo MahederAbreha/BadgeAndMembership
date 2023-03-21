@@ -20,7 +20,6 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> addTransaction(@RequestBody TransactionDTO transactionDTO){
-        System.out.println(transactionDTO);
         return new ResponseEntity<TransactionDTO>(transactionService.addTransaction(transactionDTO), HttpStatus.OK);
     }
     @GetMapping
