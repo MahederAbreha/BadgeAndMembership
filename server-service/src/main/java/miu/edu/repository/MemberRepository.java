@@ -16,7 +16,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT p FROM Membership ms JOIN ms.plan p WHERE ms.member.id = :id")
     List<Plan> findPlansByMemberId(@Param("id") Long id);
 
-    @Query("SELECT b FROM Badge b WHERE b.member.id = :id")
+    @Query("SELECT b FROM Badge b Join b.member m where m.id = :id")
      List<Badge> findBadgeByMemberId(@Param("id") Long id);
 
     @Query("SELECT m FROM Member m JOIN m.memberships b WHERE m.id = :id")

@@ -60,7 +60,7 @@ public class Member {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
-                ", badges=" + badges +
+               // ", badges=" + badges +
                 ", audit=" + audit +
                 ", roleTypes=" + roleTypes +
                 //    ", memberships=" + memberships +
