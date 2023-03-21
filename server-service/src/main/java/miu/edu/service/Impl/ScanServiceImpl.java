@@ -1,25 +1,25 @@
 package miu.edu.service.Impl;
 
 import miu.edu.adapter.LocationAdapter;
-import miu.edu.adapter.MemberAdapter;
-import miu.edu.adapter.PlanAdapter;
+import miu.edu.adapter.TransactionAdapter;
 import miu.edu.domain.*;
 import miu.edu.domain.enums.TransactionStatusType;
-import miu.edu.dto.MemberDTO;
 import miu.edu.dto.TransactionDTO;
 import miu.edu.repository.LocationRepository;
+import miu.edu.repository.MemberRepository;
 import miu.edu.repository.MembershipRepository;
 import miu.edu.repository.TransactionRepository;
 import miu.edu.service.LocationService;
-import miu.edu.service.MemberService;
-import miu.edu.service.PlanService;
 import miu.edu.service.ScanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+
+import static miu.edu.domain.enums.RoleType.STUDENT;
 
 @Service
 @Transactional
@@ -34,19 +34,22 @@ public class ScanServiceImpl implements ScanService {
     TransactionRepository transactionRepository;
     @Autowired
     LocationRepository locationRepository;
+    @Autowired
+    TransactionAdapter transactionAdapter;
+    @Autowired
+    MemberRepository memberRepository;
     @Override
     public TransactionDTO processRequest(Long checker_id, Long plan_id, Long location_id, Long member_id) {
         Location location = locationAdapter.dtoToEntity(locationService.findById(location_id));
+        Transaction transaction = new Transaction();
+        transaction.setAudit(new Audit(LocalDateTime.now()));
+        transaction.setLocation(location);
         try {
-            Membership membership = null;
-                    //membershipRepository.findByMemberAndPlanAndLocation(member_id, plan_id, location_id);
-            Transaction transaction = new Transaction();
-            transaction.setAudit(new Audit(LocalDateTime.now()));
-            transaction.setLocation(location);
+            List<Membership> memberships = membershipRepository.findFirstByMemberAndPlanAndLocation(member_id, plan_id, location_id);
+            Membership membership = memberships.get(0);
             transaction.setMembership(membership);
             transaction.setTransactionDateTime(LocalDateTime.now());
-//            transaction.setTransactionStatusType(TransactionStatusType.ALLOWED);
-            Optional<TimeSlot> timeSlot = Optional.ofNullable(locationRepository.getCurrentTimeSlot(location_id, LocalDateTime.now()));
+            Optional<TimeSlot> timeSlot = Optional.ofNullable(locationRepository.findFirstByTimeSlotsByLocationAndTime(location.getId(), LocalDateTime.now()));
             if(timeSlot.isPresent()){
                 switch (membership.getMembershipType()){
                     case LIMITED:
@@ -58,21 +61,46 @@ public class ScanServiceImpl implements ScanService {
                             default -> transactionCount = 0;
                         }
                         if (transactionCount >= membership.getLimit()){
-                            transaction.setTransactionStatusType(TransactionStatusType.DECLINED);
+                            transaction = declinedTransaction(transaction);
                         }else {
-                            transaction.setTransactionStatusType(TransactionStatusType.ALLOWED);
+                            transaction = allowTransaction(transaction, membership, timeSlot);
                         }
                         break;
                     default:
-                        transaction.setTransactionStatusType(TransactionStatusType.ALLOWED);
+                        transaction = allowTransaction(transaction, membership, timeSlot);
                 }
             }else {
-                transaction.setTransactionStatusType(TransactionStatusType.DECLINED);
+                transaction = declinedTransaction(transaction);
             }
-            transactionRepository.save(transaction);
         }catch (Exception e){
             System.out.println(e);
+            transaction = declinedTransaction(transaction);
+        }finally {
+            transactionRepository.save(transaction);
+            return transactionAdapter.entityToDTO(transaction);
         }
-        return null;
+    }
+
+    public Transaction allowTransaction(Transaction transaction, Membership membership, Optional<TimeSlot> timeSlot){
+        Optional<Member> member = memberRepository.findById(membership.getMember().getId());
+        if (!member.isPresent()) {
+            return declinedTransaction(transaction);
+        }
+
+        if (member.get().getRoleTypes().size() == 1 && member.get().getRoleTypes().stream().anyMatch(role -> role.getRoleType() == STUDENT) && timeSlot.isPresent()) {
+            Integer countTransactionInTimeSlot = transactionRepository.countTotalTransactionByTimeSlot(timeSlot.get().getId());
+            if (countTransactionInTimeSlot > 0) {
+                return declinedTransaction(transaction);
+            }
+        }
+
+        transaction.setTransactionStatusType(TransactionStatusType.ALLOWED);
+        return transaction;
+    }
+
+
+    public Transaction declinedTransaction(Transaction transaction){
+        transaction.setTransactionStatusType(TransactionStatusType.DECLINED);
+        return transaction;
     }
 }

@@ -19,7 +19,7 @@ public class ScanController {
     ScanService scanService;
     @PostMapping
     public ResponseEntity<?> accessRequest(@RequestBody Map<String, String> data){
-        Long checker_id = 4L;
+        Long checker_id = Long.valueOf(data.get("checker_id"));
         Long plan_id = Long.valueOf(data.get("plan_id"));
         Long location_id = Long.valueOf(data.get("location_id"));
         Long member_id = Long.valueOf(data.get("member_id"));

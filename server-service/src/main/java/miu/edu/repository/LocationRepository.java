@@ -8,12 +8,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
-    @Query("SELECT ts FROM Location l JOIN l.timeSlots ts " +
-            "WHERE :currentTime BETWEEN ts.startTime AND ts.endTime " +
-            "AND l.id = :locationId")
-    TimeSlot getCurrentTimeSlot(@Param("locationId") Long locationId,
-                                @Param("currentTime") LocalDateTime currentTime);
+
+    @Query("SELECT ts FROM Location l JOIN l.timeSlots ts WHERE l.id = :location_id AND :currentTime BETWEEN ts.startTime AND ts.endTime")
+    TimeSlot findFirstByTimeSlotsByLocationAndTime(@Param("location_id") Long location_id, @Param("currentTime") LocalDateTime currentTime);
+
 }

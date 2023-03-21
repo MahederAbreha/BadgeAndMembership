@@ -52,13 +52,4 @@ public class Location {
         this.locationType = locationType;
         this.timeSlots = timeSlots;
     }
-
-    public Location(long id, String name, String description, String capacity, LocationType locationType, List<TimeSlot> timeSlots) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.capacity = capacity;
-        this.locationType = locationType;
-        this.timeSlots = timeSlots;
-    }
 }
