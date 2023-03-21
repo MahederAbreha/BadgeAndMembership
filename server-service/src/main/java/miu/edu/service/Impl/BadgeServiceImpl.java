@@ -42,51 +42,27 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public BadgeDTO findBadgeById(long id) {
-        try{
-            Optional<Badge> badge = badgeRepository.findById(id);
-            if (!badge.isPresent()) {
-                throw new RuntimeException("Badge not found");
-            } else {
-                return badgeAdapter.entityToDTO(badge.get());
-            }
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to retrieve badge");
+        Optional<Badge> badge = badgeRepository.findById(id);
+        if (!badge.isPresent()) {
+            throw new RuntimeException("Badge not found");
+        } else {
+            return badgeAdapter.entityToDTO(badge.get());
         }
-
     }
 
     @Override
     public BadgeDTO updateBadge(long id, BadgeDTO badgeDTO) {
-        try{
-            Optional<Badge> badge = badgeRepository.findById(id);
-            if (!badge.isPresent()) {
-                throw new RuntimeException("Badge not found");
-            } else {
-                Badge updatedBadge = badgeAdapter.dtoToEntity(badgeDTO);
-                updatedBadge.setIsActive(badge.get().getIsActive());
-                badgeRepository.save(updatedBadge);
-                return badgeAdapter.entityToDTO(updatedBadge);
-            }
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to update badge");
-        }
+        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
+        Badge updatedBadge = badgeAdapter.dtoToEntity(badgeDTO);
+        updatedBadge.setIsActive(badge.getIsActive());
+        badgeRepository.save(updatedBadge);
+        return badgeAdapter.entityToDTO(updatedBadge);
     }
 
     @Override
     public void MakeBadgeInactive(long id) {
-        try {
-            Optional<Badge> badge = badgeRepository.findById(id);
-            if (!badge.isPresent()) {
-                throw new RuntimeException("Badge not found");
-            } else {
-                badge.get().setIsActive(false);
-                badgeRepository.save(badge.get());
-            }
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to make badge inactive");
-        }
-//        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
-//        badge.setIsActive(false);
-//        badgeRepository.save(badge);
+        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
+        badge.setIsActive(false);
+        badgeRepository.save(badge);
     }
 }

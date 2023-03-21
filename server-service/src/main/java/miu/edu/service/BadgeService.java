@@ -1,6 +1,5 @@
 package miu.edu.service;
 
-import miu.edu.domain.Badge;
 import miu.edu.dto.BadgeDTO;
 
 import java.util.List;

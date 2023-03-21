@@ -38,7 +38,8 @@ public class ScanServiceImpl implements ScanService {
     public TransactionDTO processRequest(Long checker_id, Long plan_id, Long location_id, Long member_id) {
         Location location = locationAdapter.dtoToEntity(locationService.findById(location_id));
         try {
-            Membership membership = membershipRepository.findByMemberAndPlanAndLocation(member_id, plan_id, location_id);
+            Membership membership = null;
+                    //membershipRepository.findByMemberAndPlanAndLocation(member_id, plan_id, location_id);
             Transaction transaction = new Transaction();
             transaction.setAudit(new Audit(LocalDateTime.now()));
             transaction.setLocation(location);

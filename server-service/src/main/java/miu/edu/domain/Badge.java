@@ -23,9 +23,6 @@ public class Badge {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Embedded
-    private Audit audit;
-
     public Badge(long id, Boolean isActive) {
         this.id = id;
         this.isActive = isActive;
