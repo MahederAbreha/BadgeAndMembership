@@ -23,13 +23,13 @@ public class MemberDTO {
     private String firstname;
     private String lastname;
     private String  email;
-    private List<BadgeDTO> badgeDTOS = new ArrayList<>();
+    private String  password;
     private List<RoleDTO> roleTypes = new ArrayList<>();
-    private List<MembershipDTO> membershipDTOS = new ArrayList<>();
-    public MemberDTO(Long id ,String firstname, String lastname, String email) {
+    public MemberDTO(Long id ,String firstname, String lastname, String email,String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.password = password;
     }
 }

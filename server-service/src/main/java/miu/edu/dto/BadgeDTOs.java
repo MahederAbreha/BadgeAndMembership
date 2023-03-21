@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class BadgeDTOs {
     private long id;
     private boolean isActive;
+
 }

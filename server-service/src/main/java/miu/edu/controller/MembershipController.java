@@ -47,7 +47,8 @@ public class MembershipController {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         } else {
-            return ResponseEntity.ok(iMembershipService.createMembership(membershipDTO));
+            var createMemberships = iMembershipService.createMembership(membershipDTO);
+            return new ResponseEntity<>("Membership created successfully", HttpStatus.CREATED);
         }
     }
 
