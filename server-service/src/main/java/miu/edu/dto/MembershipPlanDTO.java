@@ -20,7 +20,7 @@ public class MembershipPlanDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Long> planId = new ArrayList<>();
-    private MemberDTO memberDTO;
+    private Long memberId;
     private Integer limit;
     private MembershipType membershipType;
     private DurationType durationType;
@@ -48,7 +48,7 @@ public class MembershipPlanDTO {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                // ", planDTO=" + planDTO +
-                ", memberDTO=" + memberDTO +
+               // ", memberDTO=" + memberDTO +
                 ", limit=" + limit +
                 ", allowMultiple=" + allowMultiple +
                 '}';

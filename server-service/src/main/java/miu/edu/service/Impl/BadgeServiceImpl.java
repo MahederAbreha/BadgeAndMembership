@@ -5,6 +5,7 @@ import miu.edu.adapter.BadgeAdapter;
 import miu.edu.domain.Badge;
 import miu.edu.dto.BadgeDTO;
 import miu.edu.repository.BadgeRepository;
+import miu.edu.repository.MemberRepository;
 import miu.edu.service.BadgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BadgeServiceImpl implements BadgeService {
 
-    @Autowired
-    private final BadgeRepository badgeRepository;
 
-    @Autowired
+    private final BadgeRepository badgeRepository;
+    private final MemberRepository memberRepository;
     private final BadgeAdapter badgeAdapter;
 
     @Override
     public BadgeDTO addBadge(BadgeDTO badgeDTO) {
         Badge badge = badgeAdapter.dtoToEntity(badgeDTO);
+        var member = memberRepository.findById(badgeDTO.getMemberId());
+        badge.setMember(member.get());
         badgeRepository.save(badge);
         return badgeAdapter.entityToDTO(badge);
     }
@@ -63,7 +65,9 @@ public class BadgeServiceImpl implements BadgeService {
                 throw new RuntimeException("Badge not found");
             } else {
                 Badge updatedBadge = badgeAdapter.dtoToEntity(badgeDTO);
-                updatedBadge.setIsActive(badge.get().getIsActive());
+                updatedBadge.setIsActive(badgeDTO.getIsActive());
+                var member = memberRepository.findByIdAndBadgesId(badgeDTO.getMemberId(), id);
+                updatedBadge.setMember(member.getMember());
                 badgeRepository.save(updatedBadge);
                 return badgeAdapter.entityToDTO(updatedBadge);
             }
@@ -85,8 +89,6 @@ public class BadgeServiceImpl implements BadgeService {
         } catch (RuntimeException e) {
             throw new RuntimeException("Failed to make badge inactive");
         }
-//        Badge badge = badgeRepository.findById(id).orElseThrow(() -> new RuntimeException("Badge not found"));
-//        badge.setIsActive(false);
-//        badgeRepository.save(badge);
+
     }
 }
