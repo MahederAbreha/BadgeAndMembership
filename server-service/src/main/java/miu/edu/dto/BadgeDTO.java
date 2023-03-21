@@ -13,4 +13,5 @@ public class BadgeDTO {
 
     private long id;
     private Boolean isActive;
+    private Member member;
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,12 +28,12 @@ public class BadgeController {
         return new ResponseEntity< BadgeDTO >(badgeService.findBadgeById(badge_id), HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<?> addBadge(@RequestBody BadgeDTO badgeDTO){
+    public ResponseEntity<?> addBadge(@Valid @RequestBody BadgeDTO badgeDTO){
         badgeService.addBadge(badgeDTO);
         return new ResponseEntity<String>("Badge Saved successfully.", HttpStatus.OK);
     }
     @PutMapping("/{badge_id}")
-    public ResponseEntity<?> updateBadge(@PathVariable long badge_id, @RequestBody BadgeDTO badgeDTO){
+    public ResponseEntity<?> updateBadge(@PathVariable long badge_id, @Valid @RequestBody BadgeDTO badgeDTO){
         badgeService.updateBadge(badge_id, badgeDTO);
         return new ResponseEntity<String>("Badge Updated successfully.", HttpStatus.OK);
     }
