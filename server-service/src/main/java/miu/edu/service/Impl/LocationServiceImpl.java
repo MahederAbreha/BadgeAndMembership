@@ -18,9 +18,9 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
-    @Autowired
+
     private final LocationAdapter locationAdapter;
-    @Autowired
+
     private final LocationRepository locationRepository;
 
     @Override
