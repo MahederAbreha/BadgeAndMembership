@@ -3,9 +3,7 @@ package miu.edu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import miu.edu.domain.enums.DurationType;
-import miu.edu.domain.enums.MembershipType;
+
 
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
@@ -15,7 +13,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class MembershipPlanDTO {
     private long id;
     @Past(message = "Start date must be in the past")

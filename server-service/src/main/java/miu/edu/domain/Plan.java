@@ -3,6 +3,7 @@ package miu.edu.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import miu.edu.domain.enums.MembershipType;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Plan {
 
     @Id

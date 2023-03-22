@@ -17,7 +17,6 @@ import java.util.List;
 public class BadgeController {
     private final BadgeService badgeService;
 
-
     @GetMapping
     public ResponseEntity<?> getAllBadges(){
         return new ResponseEntity<List< BadgeDTO >>(badgeService.findAllBadges(), HttpStatus.OK);
