@@ -3,6 +3,7 @@ package miu.edu.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import miu.edu.domain.Member;
 import miu.edu.domain.Plan;
 import miu.edu.domain.Transaction;
@@ -22,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString
 public class MembershipDTO {
     private long id;
     @Past(message = "Start date must be in the past")

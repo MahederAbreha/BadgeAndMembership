@@ -11,25 +11,25 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Transaction {
+public class TransactionDTO {
     private long id;
     private TransactionStatusType status;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateTime;
-    private Membership membership;
-    private Location locationDTO;
+    private MembershipDTO membershipDTO;
+    private LocationDTO locationDTO;
 
-    public Transaction(TransactionStatusType status, LocalDateTime dateTime, Membership membership, Location locationDTO) {
+    public TransactionDTO(TransactionStatusType status, LocalDateTime dateTime, MembershipDTO membershipDTO, LocationDTO locationDTO) {
         this.status = status;
         this.dateTime = dateTime;
-        this.membership = membership;
+        this.membershipDTO = membershipDTO;
         this.locationDTO = locationDTO;
     }
 
-    public Transaction(TransactionStatusType status, LocalDateTime dateTime, Membership membership) {
+    public TransactionDTO(TransactionStatusType status, LocalDateTime dateTime, MembershipDTO membershipDTO) {
         this.status = status;
         this.dateTime = dateTime;
-        this.membership = membership;
+        this.membershipDTO = membershipDTO;
     }
 }

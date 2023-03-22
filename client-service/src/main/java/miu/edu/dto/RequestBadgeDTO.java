@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Badge {
+public class RequestBadgeDTO {
 
     private long id;
     private Boolean isActive;
-    private Member memberDTO;
+    private long memberId;
 
-    public Badge(long id, Boolean isActive) {
+    public RequestBadgeDTO(long id, Boolean isActive) {
         this.id = id;
         this.isActive = isActive;
     }
