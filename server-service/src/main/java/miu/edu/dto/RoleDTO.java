@@ -12,6 +12,6 @@ import miu.edu.domain.enums.RoleType;
 public class RoleDTO {
 
     private long id;
-    private RoleType roleType;
+    private String name;
 
 }

@@ -18,10 +18,16 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-  application:
-    name: server-service
-  cloud:
-    discovery:
-      client:
-        service-url:
-          defaultZone: http://localhost:8761/eureka
+#  application:
+#    name: server-service
+#  cloud:
+#    discovery:
+#      client:
+#        service-url:
+#          defaultZone: http://localhost:8761/eureka
+
+
+
+user:
+  jwt:
+    secret: Aadfdghereteefdshds23442jshfrhgohbvbsaufhwousfavjofghbsiuhfaofsghuhgofsvbsjkdiosfsdohoashsmc28247

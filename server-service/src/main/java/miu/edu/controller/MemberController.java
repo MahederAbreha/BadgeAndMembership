@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class MemberController {
 
     private final MemberService memberService;
     @PostMapping
+    @RolesAllowed("ADMIN")
     public ResponseEntity<?> addMember(@Valid  @RequestBody MemberDTO memberDTO, BindingResult result){
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldErrors());

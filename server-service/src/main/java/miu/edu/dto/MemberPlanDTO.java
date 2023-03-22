@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +19,7 @@ public class MemberPlanDTO {
     private String  email;
     private String  password;
     private List<BadgeDTO> badgeDTOS = new ArrayList<>();
-    private List<RoleDTO> roleTypes = new ArrayList<>();
+    private Set<RoleDTO> roleTypes = new HashSet<>();
     private List<MembershipDTO> membershipDTOS = new ArrayList<>();
     private List<Long> plansId = new ArrayList<>();
     public MemberPlanDTO(Long id , String firstname, String lastname, String email,String password) {
