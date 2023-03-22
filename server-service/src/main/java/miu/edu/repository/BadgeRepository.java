@@ -13,7 +13,8 @@ import java.util.Optional;
 @Repository
 public interface BadgeRepository extends JpaRepository<Badge, Long> {
     Optional<Badge> findBadgeByMemberIdAndIsActive(long id, boolean isActive);
-    Optional<List<Badge>> findBadgesByMember(long id);
+    @Query("select b from Badge b where b.member.id = :id and b.isActive = true")
+    Optional<List<Badge>> findBadgesByMember(@Param("id") long id);
     @Modifying
     @Query("update Badge b set b.isActive = false where b.member.id = :id")
     public void updateBadgesToInactive(@Param("id") long id);
