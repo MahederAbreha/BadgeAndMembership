@@ -88,6 +88,7 @@ public class BadgeServiceImpl implements BadgeService {
         if (badge.isEmpty()) {
             throw new RuntimeException("Badge not found");
         } else {
+
             return modelMapper.map(badge.get(), BadgeDTO.class);
         }
     }
