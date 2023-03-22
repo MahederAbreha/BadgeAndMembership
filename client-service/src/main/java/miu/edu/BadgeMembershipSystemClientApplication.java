@@ -90,10 +90,12 @@ public class BadgeMembershipSystemClientApplication implements CommandLineRunner
         while (true) {
             System.out.print("Scan a member's badge: ");
             if (scanner.hasNextLong()) {
-                //get badgeID from scan and query for memberID?
-                Long memberId = scanner.nextLong();
+                Long badgeId = scanner.nextLong();
+                BadgeDTO badgeDTO = restTemplate.getForObject(url+"/badges/"+badgeId, BadgeDTO.class, badgeId);
+                Long memberId = badgeDTO.getMemberDTO().getId();
                 ScanDTO scanDTO = new ScanDTO(checkerId, planId, locationId, memberId);
-                ResponseEntity<TransactionDTO> transactionDTO = restTemplate.postForEntity(url+"/scan", scanDTO, TransactionDTO.class );
+                ResponseEntity<TransactionDTO> response = restTemplate.postForEntity(url+"/scan", scanDTO, TransactionDTO.class );
+                System.out.println(response.getBody().getStatus());
             } else {
                 break;
             }
