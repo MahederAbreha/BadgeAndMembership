@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import miu.edu.domain.Badge;
 import miu.edu.domain.Member;
 import miu.edu.dto.BadgeDTO;
+import miu.edu.dto.MemberDTO;
 import miu.edu.dto.RequestBadgeDTO;
 import miu.edu.repository.BadgeRepository;
 import miu.edu.repository.MemberRepository;
@@ -66,7 +67,9 @@ public class BadgeServiceImpl implements BadgeService {
         if (memberBadges.isEmpty()) {
             throw new RuntimeException("Badge not found");
         } else {
-            return memberBadges.get().stream().map(badge -> modelMapper.map(badge, BadgeDTO.class)).collect(Collectors.toList());
+            return memberBadges.get().stream()
+                    .map(badge -> modelMapper.map(badge, BadgeDTO.class))
+                    .collect(Collectors.toList());
         }
     }
 
@@ -86,7 +89,11 @@ public class BadgeServiceImpl implements BadgeService {
         if (badge.isEmpty()) {
             throw new RuntimeException("Badge not found");
         } else {
-            return modelMapper.map(badge.get(), BadgeDTO.class);
+            var member = badge.get().getMember();
+            var badgeDTO = modelMapper.map(badge.get(), BadgeDTO.class);
+            badgeDTO.setMemberDTO(modelMapper.map(member, MemberDTO.class));
+            return badgeDTO;
+            //return modelMapper.map(badge.get(), BadgeDTO.class);
         }
     }
 

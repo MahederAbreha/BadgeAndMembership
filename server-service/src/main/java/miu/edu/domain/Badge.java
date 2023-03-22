@@ -25,9 +25,6 @@ public class Badge {
     @JsonBackReference
     private Member member;
 
-    @Embedded
-    private Audit audit;
-
     public Badge(long id, Boolean isActive) {
         this.id = id;
         this.isActive = isActive;
