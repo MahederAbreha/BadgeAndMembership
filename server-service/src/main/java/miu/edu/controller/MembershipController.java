@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class MembershipController {
 
 
     @PostMapping()
+    @RolesAllowed("FACULTY  ")
     public ResponseEntity<?> createMemberships(@Valid @RequestBody MembershipPlanDTO membershipDTO, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());

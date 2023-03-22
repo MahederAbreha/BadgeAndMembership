@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -24,5 +25,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT t FROM Transaction t where t.membership.member.id = :id")
     List<Transaction> findTransactionsByMemberId(@Param("id") Long id);
+
+    Optional<Member> findByEmail(String email);
 
 }
