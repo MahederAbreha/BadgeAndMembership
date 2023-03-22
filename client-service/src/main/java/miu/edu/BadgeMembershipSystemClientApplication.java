@@ -4,12 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -26,11 +23,10 @@ public class BadgeMembershipSystemClientApplication implements CommandLineRunner
     @Override
     public void run(String... args) throws Exception {
         Long checkerId;
-        //Long memberId;
         Long planId;
         Long locationId;
-        MemberDTO loginResponse = new MemberDTO(74L, "Mahi", "Abebeb", "mahi@miu.edu", "qwert");
-        //MemberDTO loginResponse = login().getBody();
+        //MemberDTO loginResponse = new MemberDTO(74L, "Mahi", "Abebeb", "mahi@miu.edu", "qwert");
+        MemberDTO loginResponse = login().getBody();
         checkerId = loginResponse.getId();
         MembershipDTO membershipDTO = getMembership(checkerId);
         if(membershipDTO.getMembershipType().equals(MembershipType.CHECKER)){
