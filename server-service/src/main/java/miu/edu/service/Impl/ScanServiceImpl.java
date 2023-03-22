@@ -45,8 +45,7 @@ public class ScanServiceImpl implements ScanService {
         transaction.setAudit(new Audit(LocalDateTime.now()));
         transaction.setLocation(location);
         try {
-            List<Membership> memberships = membershipRepository.findFirstByMemberAndPlanAndLocation(member_id, plan_id, location_id);
-            Membership membership = memberships.get(0);
+            Membership membership = membershipRepository.findFirstByMemberAndPlanAndLocation(member_id, plan_id, location_id);
             transaction.setMembership(membership);
             transaction.setTransactionDateTime(LocalDateTime.now());
             Optional<TimeSlot> timeSlot = Optional.ofNullable(locationRepository.findFirstByTimeSlotsByLocationAndTime(location.getId(), LocalDateTime.now()));
@@ -87,7 +86,7 @@ public class ScanServiceImpl implements ScanService {
             return declinedTransaction(transaction);
         }
 
-        if (member.get().getRoleTypes().size() == 1 && member.get().getRoleTypes().stream().anyMatch(role -> role.getRoleType() == STUDENT) && timeSlot.isPresent()) {
+        if (membership.getAllowMultiple() == false && timeSlot.isPresent()) {
             Integer countTransactionInTimeSlot = transactionRepository.countTotalTransactionByTimeSlot(timeSlot.get().getId());
             if (countTransactionInTimeSlot > 0) {
                 return declinedTransaction(transaction);
