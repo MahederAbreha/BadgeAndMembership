@@ -24,7 +24,7 @@ public class LocationController {
     public ResponseEntity<?> getAllLocation(){
         return new ResponseEntity<List<LocationDTO>>(locationService.findAllLocations(), HttpStatus.OK);
     }
-    @GetMapping("/{location_id")
+    @GetMapping("/{location_id}")
     public ResponseEntity<?> getLocation(@PathVariable Long location_id){
         return new ResponseEntity<LocationDTO>(locationService.findById(location_id), HttpStatus.OK);
     }
