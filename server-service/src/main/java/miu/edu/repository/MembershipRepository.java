@@ -21,4 +21,6 @@ public interface MembershipRepository extends JpaRepository<Membership, Long> {
     Membership findFirstByMemberAndPlanAndLocation(@Param("member_id") Long member_id,
                                                          @Param("plan_id") Long plan_id,
                                                          @Param("location_id") Long location_id);
+//    @Query("SELECT m FROM Membership m WHERE m.member.id = :member_id")
+//    List<Membership> findMembershipByMember(Long member_id);
 }
