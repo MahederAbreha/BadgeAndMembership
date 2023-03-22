@@ -3,6 +3,7 @@ package miu.edu.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import miu.edu.domain.enums.DurationType;
 import miu.edu.domain.enums.MembershipType;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@ToString
 public class Membership {
     @Id
     @GeneratedValue
@@ -31,7 +33,7 @@ public class Membership {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "membership_plans",
             joinColumns = @JoinColumn(name = "membership_id"),
             inverseJoinColumns = @JoinColumn(name = "plan_id"))
