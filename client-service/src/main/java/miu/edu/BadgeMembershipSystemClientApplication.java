@@ -8,6 +8,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -90,8 +92,8 @@ public class BadgeMembershipSystemClientApplication implements CommandLineRunner
             if (scanner.hasNextLong()) {
                 //get badgeID from scan and query for memberID?
                 Long memberId = scanner.nextLong();
-                //Bapi?? can yuo build the "data" map and request the post?
-                //ResponseEntity<TransactionDTO> transactionDTO = restTemplate.postForEntity(url+"/scan", data, TransactionDTO.class )
+                ScanDTO scanDTO = new ScanDTO(checkerId, planId, locationId, memberId);
+                ResponseEntity<TransactionDTO> transactionDTO = restTemplate.postForEntity(url+"/scan", scanDTO, TransactionDTO.class );
             } else {
                 break;
             }
