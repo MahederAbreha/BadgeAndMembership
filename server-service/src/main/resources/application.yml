@@ -7,13 +7,9 @@ logging:
 
 spring:
   datasource:
-#    url: jdbc:mysql://localhost:3306/badge_membership_db
-#    username: root
-#    password:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/plankjxj_badge_membership_db
-    username: plankjxj_ea_group_9
-    password: ea@Group9
+    url: jdbc:mysql://localhost:3306/badge_membership_db
+    username: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
