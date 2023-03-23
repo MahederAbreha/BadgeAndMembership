@@ -26,13 +26,12 @@ public class BadgeMembershipSystemClientApplication implements CommandLineRunner
     @Override
     public void run(String... args) throws Exception {
         Long checkerId;
-        //Long memberId;
         Long planId;
         Long locationId;
-        MemberDTO loginResponse = new MemberDTO(74L, "Mahi", "Abebeb", "mahi@miu.edu", "qwert");
-        //MemberDTO loginResponse = login().getBody();
-        String token = "";
-        checkerId = loginResponse.getId();
+        //MemberDTO loginResponse = new MemberDTO(74L, "Mahi", "Abebeb", "mahi@miu.edu", "qwert");
+        LoginResponseDTO loginResponseDTO = login().getBody();
+        String token = loginResponseDTO.getToken();
+        checkerId = loginResponseDTO.getId();
         MembershipDTO membershipDTO = getMembership(checkerId, token);
         if(membershipDTO.getMembershipType().equals(MembershipType.CHECKER)){
             System.out.println(membershipDTO);
@@ -53,15 +52,15 @@ public class BadgeMembershipSystemClientApplication implements CommandLineRunner
         }
 
     }
-    private ResponseEntity<MemberDTO> login(){
+    private ResponseEntity<LoginResponseDTO> login(){
         System.out.println("= = = = = = = = = BADGE AND MEMBERSHIP MANAGEMENT SYSTEM  = = = = = = = = =");
         System.out.println("= = = = = = = = = = = = = =   SIGN IN PLEASE  = = = = = = = = = = = = = = =");
-        System.out.print("Username: ");
-        String username = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
         System.out.print("Password: ");
         String password = scanner.nextLine();
-        LoginDTO loginDTO = new LoginDTO(username,password);
-        ResponseEntity<MemberDTO> response = restTemplate.postForEntity(url+"/authentication", loginDTO, MemberDTO.class);
+        LoginDTO loginDTO = new LoginDTO(email,password);
+        ResponseEntity<LoginResponseDTO> response = restTemplate.postForEntity(url+"/login/authenticate", loginDTO, LoginResponseDTO.class);
         return response;
     }
     private MembershipDTO getMembership(long memberId, String token){
