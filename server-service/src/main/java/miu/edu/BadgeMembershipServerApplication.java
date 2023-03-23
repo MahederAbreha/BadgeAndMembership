@@ -3,23 +3,19 @@ package miu.edu;
 
 import lombok.RequiredArgsConstructor;
 import miu.edu.domain.Role;
-import miu.edu.repository.MemberRepository;
 import miu.edu.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Set;
 
 
 @SpringBootApplication
 @RequiredArgsConstructor
 public class BadgeMembershipServerApplication implements CommandLineRunner {
-    private final PasswordEncoder passwordEncoder;
-    private final MemberRepository memberRepository;
+
     private final RoleRepository roleRepository;
 
     public static void main(String[] args) {
