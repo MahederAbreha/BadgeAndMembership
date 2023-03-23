@@ -1,6 +1,7 @@
 package miu.edu.service.Impl;
 
 
+import lombok.RequiredArgsConstructor;
 import miu.edu.domain.Member;
 import miu.edu.domain.Role;
 import miu.edu.dto.AuthDTO.AuthLoginDTO;
@@ -32,25 +33,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Override
-    public AuthResponseDTO register(AuthRequestDTO authRequestDTO) {
-       // var roles = Arrays.asList(Role.builder().name("User").build(), Role.builder().name("Admin").build());
-
-        //TODO Use model mapper
-        var user = Member.builder()
-                .firstname(authRequestDTO.getFirstname())
-                .lastname(authRequestDTO.getLastname())
-                .email(authRequestDTO.getEmail())
-                .password(passwordEncoder.encode(authRequestDTO.getPassword()))
-               // .roleTypes(roles)
-                .build();
-        memberRepository.save(user);
-        var jwtToken = jwtTokenUtil.generateAccessToken(user);
-        AuthResponseDTO responseDTO = AuthResponseDTO.builder()
-                .token(jwtToken)
-                .build();
-        return responseDTO;
-    }
 
     @Override
     public AuthResponseDTO authenticate(AuthLoginDTO authLoginDto) {
@@ -75,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .email(user.getEmail())
                     .password(passwordEncoder.encode(user.getPassword()))
                     .token(jwtToken)
-                    // .roleTypes(roles)
+                    .roles(user.getRoleTypes())
                     .build();
 
 

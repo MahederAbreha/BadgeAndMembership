@@ -2,9 +2,9 @@ package miu.edu;
 
 
 import lombok.RequiredArgsConstructor;
-import miu.edu.domain.Member;
 import miu.edu.domain.Role;
 import miu.edu.repository.MemberRepository;
+import miu.edu.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,16 +20,13 @@ import java.util.Set;
 public class BadgeMembershipServerApplication implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+    private final RoleRepository roleRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(BadgeMembershipServerApplication.class, args);
-        System.out.println("Server is running!!!!!!");
 
     }
 
-
-//    @Autowired
-//    private  UserRepository userRepository;
 
     @Bean
     ModelMapper modelMapper() {
@@ -38,26 +35,14 @@ public class BadgeMembershipServerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //userRepository.deleteAll();
-        Set<Role> roles = Set.of(new Role("ADMIN"));
-        Set<Role> roles1 = Set.of(new Role("FACULTY"));
 
-
-        memberRepository.deleteAll();
-        Member faculty = new Member();
-        faculty.setEmail("bijy@example.com");
-        faculty.setFirstname("Faculty");
-        faculty.setLastname("User");
-        faculty.setPassword(passwordEncoder.encode("faculty123"));
-        faculty.setRoleTypes(roles1);
-        memberRepository.save(faculty);
-        Member admin = new Member();
-        admin.setEmail("faculty@example.com");
-        admin.setFirstname("Faculty");
-        admin.setLastname("User");
-        admin.setPassword(passwordEncoder.encode("faculty123"));
-        admin.setRoleTypes(roles);
-        memberRepository.save(admin);
+        var role = roleRepository.findAll();
+        if (role.size() == 0) {
+            Set<Role> roles = Set.of(new Role("ADMIN"),
+                    new Role("FACULTY"), new Role("STUDENT"),
+                    new Role("STAFF"));
+            roleRepository.saveAll(roles);
+        }
         System.out.println("Server is running!!!!!!");
 
     }

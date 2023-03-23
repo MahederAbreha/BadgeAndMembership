@@ -25,6 +25,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 
     private final JwtTokenUtil jwtUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response, FilterChain filterChain)
@@ -76,9 +77,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private UserDetails getUserDetails(String token) {
 
-
-
-
         Member userDetails = new Member();
         String[] jwtSubject = jwtUtil.getSubject(token).split(",");
         Claims claims = jwtUtil.parseClaims(token);
@@ -98,58 +96,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         userDetails.setEmail(jwtSubject[1]);
 
         return userDetails;
-
-//        Claims claims = jwtUtil.parseClaims(token);
-//        String subject = (String) claims.get(Claims.SUBJECT);
-//        //String[] jwtSubject = subject.split(",");
-//        String roles = (String) claims.get("roles");
-//
-//        // Remove the square brackets from the roles string
-//        roles = roles.replace("[", "").replace("]", "");
-//
-//        // Split the roles string into an array of role names
-//        String[] roleNames = roles.split(",");
-//
-//        // Create a set of Role objects from the array of role names
-//        Set<Role> rolesSet = new HashSet<>();
-//        for (String roleName : roleNames) {
-//            rolesSet.add(new Role(roleName.trim()));
-//        }
-//
-//        // Set the roles set in the userDetails object
-//        userDetails.setRoleTypes(rolesSet);
-//
-//        // Split the subject string into an array of values
-//        String[] jwtSubject = subject.split(",");
-//
-//        // Set the id and email in the userDetails object
-//        userDetails.setId(Long.parseLong(jwtSubject[0]));
-//        userDetails.setEmail(jwtSubject[1]);
-//
-//        return userDetails;
-        // User userDetails = new User();
-//        Claims claims = jwtUtil.parseClaims(token);
-//        String subject = (String) claims.get(Claims.SUBJECT);
-//        String roles = (String) claims.get("roles");
-//
-//        roles = roles.replace("[", "").replace("]", "");
-//        String[] roleNames = roles.split(",");
-//
-//                // Create a set of Role objects from the array of role names
-//        Set<Role> rolesSet = new HashSet<>();
-//        for (String roleName : roleNames) {
-//            rolesSet.add(new Role(roleName.trim()));
-//        }
-//
-//        // Set the roles set in the userDetails object
-//        userDetails.setRoleTypes(rolesSet);
-//
-//        String[] jwtSubject = subject.split(",");
-//
-//        userDetails.setId(Long.parseLong(jwtSubject[0]));
-//        userDetails.setEmail(jwtSubject[1]);
-//
-//        return userDetails;
     }
 }
 
