@@ -7,6 +7,5 @@ import miu.edu.dto.AuthDTO.AuthResponseDTO;
 
 
 public interface AuthenticationService  {
-    AuthResponseDTO register(AuthRequestDTO authRegisterDto);
     AuthResponseDTO authenticate(AuthLoginDTO authLoginDTO);
 }

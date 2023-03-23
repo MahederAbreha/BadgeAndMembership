@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import miu.edu.adapter.*;
 import miu.edu.domain.Audit;
 import miu.edu.domain.Member;
+import miu.edu.domain.Role;
 import miu.edu.domain.Transaction;
 import miu.edu.dto.*;
 import miu.edu.repository.MemberRepository;
+import miu.edu.repository.RoleRepository;
 import miu.edu.service.MemberService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MemberRepository memberRepository;
+    private final RoleRepository roleRepository;
     private final BadgeAdapter badgeAdapter;
     private final MembershipAdapter membershipAdapter;
     private final RoleAdapter roleAdapter;
@@ -37,19 +42,28 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDTO addMember(MemberDTO memberDTO) {
+        try {
+            var member = memberAdapter.DtoToEntity(memberDTO);
+            String password = bCryptPasswordEncoder.encode(memberDTO.getPassword());
+            member.setPassword(password);
+            var roleTypes = roleAdapter.dtoToEntityAll(memberDTO.getRoleTypes());
 
-
-        var member = memberAdapter.DtoToEntity(memberDTO);
-
-        String password = bCryptPasswordEncoder.encode(memberDTO.getPassword());
-        member.setPassword(password);
-        var roleTypes = roleAdapter.dtoToEntityAll(memberDTO.getRoleTypes());
-        member.setRoleTypes(roleTypes);
-        member.setAudit(new Audit(LocalDateTime.now()));
-        memberRepository.save(member);
-        return memberAdapter.entityToDTO(member);
+            //reterive the roles from the database
+            Set<Role> roles = new HashSet<>();
+            roleTypes.forEach(role -> {
+                var roleMember = roleRepository.findByName(role.getName());
+                roles.add(roleMember);
+            });
+            member.setRoleTypes(roles);
+            member.setAudit(new Audit(LocalDateTime.now()));
+            memberRepository.save(member);
+            return memberAdapter.entityToDTO(member);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to add the member");
+        }
 
     }
+
 
     @Override
     public List<MemberDTO> findAllMembers() {
